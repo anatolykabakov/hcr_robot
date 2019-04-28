@@ -1,5 +1,5 @@
 <package>
-  <name>neato_node</name>
+  <name>hcr_node</name>
   <version>0.2.0</version>
   <description>
     A node wrapper for the neato_driver package
@@ -11,7 +11,7 @@
   
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>neato_driver</run_depend>
+  <run_depend>hcr_driver</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>

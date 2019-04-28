@@ -1,8 +1,8 @@
 <package>
-  <name>neato_driver</name>
+  <name>hcr_driver</name>
   <version>0.2.0</version>
   <description>
-    This is a generic drivers for the Neato XV-11 Robotic Vacuum.
+    This is a generic drivers for the HCR Robot.
   </description>
   <author>Michael Ferguson</author>
   <maintainer email="ferguson@cs.albany.edu">Michael Ferguson</maintainer>

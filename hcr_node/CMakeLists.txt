@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(neato_node)
+project(hcr_node)
 
 find_package(catkin REQUIRED)
 catkin_package(DEPENDS)
@@ -11,3 +11,4 @@ install(DIRECTORY launch
 install(DIRECTORY nodes
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+catkin_package()
