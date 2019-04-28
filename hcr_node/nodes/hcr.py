@@ -67,7 +67,7 @@ class HCRNode:
             #self.robot.requestScan()
             scan.ranges = self.robot.getScanRanges()
 
-            # get motor encoder values
+            # get motor velocity values
             vr, vl = self.robot.getMotors()
 
             # send updated movement commands
@@ -77,17 +77,16 @@ class HCRNode:
             # now update position information
             dt = (scan.header.stamp - then).to_sec()
             then = scan.header.stamp
-
+            
+            #odometry navigation
             omegaRight = vr/WHEELS_RAD
             omegaLeft  = vl/WHEELS_RAD
-            # фактическая линейная скорость центра робота
-            linear_velocity = (WHEELS_RAD/2)*(omegaRight + omegaLeft);#//m/s
-            # фактическая угловая скорость поворота робота
-            angular_velocity = (WHEELS_RAD/WHEELS_DIST)*(omegaRight - omegaLeft);
-            self.th+=(angular_velocity * dt)#;  #  // направление в рад
+            linear_velocity = (WHEELS_RAD/2)*(omegaRight + omegaLeft)
+            angular_velocity = (WHEELS_RAD/WHEELS_DIST)*(omegaRight - omegaLeft)
+            self.th+=(angular_velocity * dt)
             self.th = normalize_angle(self.th)
-            self.x += linear_velocity*cos(self.th) * dt# // в метрах
-            self.y += linear_velocity*sin(self.th) * dt#
+            self.x += linear_velocity*cos(self.th) * dt
+            self.y += linear_velocity*sin(self.th) * dt
 
             # prepare tf from base_link to odom
             quaternion = Quaternion()
