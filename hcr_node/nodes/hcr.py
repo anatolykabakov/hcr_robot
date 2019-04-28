@@ -67,7 +67,7 @@ class HCRNode:
             #self.robot.requestScan()
             scan.ranges = self.robot.getScanRanges()
 
-            # get motor encoder values
+            # get motor velocity values
             vr, vl = self.robot.getMotors()
 
             # send updated movement commands
@@ -77,7 +77,8 @@ class HCRNode:
             # now update position information
             dt = (scan.header.stamp - then).to_sec()
             then = scan.header.stamp
-
+            
+            #odometry navigation
             omegaRight = vr/WHEELS_RAD
             omegaLeft  = vl/WHEELS_RAD
             linear_velocity = (WHEELS_RAD/2)*(omegaRight + omegaLeft)
