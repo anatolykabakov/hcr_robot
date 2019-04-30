@@ -20,8 +20,7 @@ from hcr_driver.hcr_driver import hcr, WHEELS_DIST, WHEELS_RAD, MAX_SPEED
 ARDUINO_PORT = '/dev/ttyACM0'
 ARDUINO_SPEED = 115200
 
-#RPLidar serial port
-LIDAR_PORT = '/dev/ttyUSB0'
+
 
 class HCRNode:
 
@@ -35,7 +34,6 @@ class HCRNode:
         self.robot = hcr(self.port, LIDAR_PORT)
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
-        self.scanPub = rospy.Publisher('base_scan', LaserScan, queue_size=10)
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=10)
         self.odomBroadcaster = TransformBroadcaster()
 
@@ -49,24 +47,12 @@ class HCRNode:
         self.th = 0
         then = rospy.Time.now()
 
-        # things that don't ever change
-        scan_link = rospy.get_param('~frame_id','base_laser_link')
-        scan = LaserScan(header=rospy.Header(frame_id=scan_link)) 
-        #datasheet rplidar
-        scan.angle_min = 0
-        scan.angle_max = 6.26
-        scan.angle_increment = 0.0157
-        scan.range_min = 0.15
-        scan.range_max = 8.0
+
         odom = Odometry(header=rospy.Header(frame_id="odom"), child_frame_id='base_link')
     
         # main loop of driver
         r = rospy.Rate(5)
         while not rospy.is_shutdown():
-            # prepare laser scan
-            scan.header.stamp = rospy.Time.now()    
-            #self.robot.requestScan()
-            scan.ranges = self.robot.getScanRanges()
 
             # get motor velocity values
             vr, vl = self.robot.getMotors()
@@ -106,7 +92,6 @@ class HCRNode:
             # publish everything
             self.odomBroadcaster.sendTransform( (self.x, self.y, 0), (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
                 then, "base_link", "odom" )
-            self.scanPub.publish(scan)
             self.odomPub.publish(odom)
 
             # wait, then do it again
@@ -118,8 +103,8 @@ class HCRNode:
     def cmdVelCb(self,req):
         vLinear = req.linear.x 
         vAngular = req.angular.z * (WHEELS_DIST/2)
-        vr = ((2 * vLinear) + (WHEELS_DIST * vAngular)) / 2
-        vl = ((2 * vLinear) - (WHEELS_DIST * vAngular))/ 2
+        vr = ((2 * vLinear) + (WHEELS_DIST * vAngular))/2
+        vl = ((2 * vLinear) - (WHEELS_DIST * vAngular))/2
         k = max(abs(vr),abs(vl))
         # sending commands higher than max speed will fail
         if k > MAX_SPEED:
