@@ -52,11 +52,12 @@ class HCRNode:
         # things that don't ever change
         scan_link = rospy.get_param('~frame_id','base_laser_link')
         scan = LaserScan(header=rospy.Header(frame_id=scan_link)) 
+        #datasheet rplidar
         scan.angle_min = 0
         scan.angle_max = 6.26
-        scan.angle_increment = 0.017437326
-        scan.range_min = 0.020
-        scan.range_max = 5.0
+        scan.angle_increment = 0.0157
+        scan.range_min = 0.15
+        scan.range_max = 8.0
         odom = Odometry(header=rospy.Header(frame_id="odom"), child_frame_id='base_link')
     
         # main loop of driver

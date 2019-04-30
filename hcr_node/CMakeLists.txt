@@ -11,3 +11,4 @@ install(DIRECTORY launch
 install(DIRECTORY nodes
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+catkin_package()
