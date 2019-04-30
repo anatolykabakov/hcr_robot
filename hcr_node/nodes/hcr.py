@@ -53,7 +53,7 @@ class HCRNode:
         # main loop of driver
         r = rospy.Rate(5)
         while not rospy.is_shutdown():
-
+            odom.header.stamp = rospy.Time.now()
             # get motor velocity values
             vr, vl = self.robot.getMotors()
 
@@ -62,8 +62,8 @@ class HCRNode:
             
             
             # now update position information
-            dt = (scan.header.stamp - then).to_sec()
-            then = scan.header.stamp
+            dt = (odom.header.stamp - then).to_sec()
+            then = odom.header.stamp
             
             #odometry navigation
             omegaRight = vr/WHEELS_RAD
@@ -81,7 +81,7 @@ class HCRNode:
             quaternion.w = cos(self.th/2.0)
 
             # prepare odometry
-            odom.header.stamp = rospy.Time.now()
+            #odom.header.stamp = rospy.Time.now()
             odom.pose.pose.position.x = self.x
             odom.pose.pose.position.y = self.y
             odom.pose.pose.position.z = 0
