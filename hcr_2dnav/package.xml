@@ -1,19 +1,15 @@
 <package>
-  <name>hcr_driver</name>
+  <name>hcr_2dnav</name>
   <version>0.2.0</version>
   <description>
-    This is a generic drivers for the Neato XV-11 Robotic Vacuum.
+    This package contains configuration and launch files for using the navigation stack with the Neato XV-11 robot.
   </description>
   <author>Michael Ferguson</author>
   <maintainer email="ferguson@cs.albany.edu">Michael Ferguson</maintainer>
   <license>BSD</license>
-  <url>http://ros.org/wiki/hcr_driver</url>
+  <url>http://ros.org/wiki/hcr_2dnav</url>
   
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>python-serial</run_depend>
-
-  <export>
-    <rosdoc config="rosdoc.yaml" />
-  </export> 
+  <run_depend>hcr_node</run_depend>
 </package>

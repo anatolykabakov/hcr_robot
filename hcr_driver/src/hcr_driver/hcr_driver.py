@@ -85,8 +85,13 @@ class hcr():
     def getScanRanges(self):
         #get laser dara
         # Extract (quality, angle, distance) triples from current scan
-        #scan = [[item[1], item[2]] for item in next(self.iterator)]
-        ranges = [item[2]/1000 for item in next(self.iterator)]
+        scan = [[item[1], item[2]] for item in next(self.iterator)]
+        scan.sort(key=lambda x: x[0], reverse=False)
+        ranges = []
+        for angle, dist in scan:
+            ranges.append(dist/1000)
+
+        #ranges = [item[2]/1000 for item in next(self.iterator)]
         return ranges
     
 
