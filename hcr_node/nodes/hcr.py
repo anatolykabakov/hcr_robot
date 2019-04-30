@@ -31,7 +31,7 @@ class HCRNode:
         self.port = rospy.get_param('~port', ARDUINO_PORT)
         rospy.loginfo("Using port: %s"%(self.port))
 
-        self.robot = hcr(self.port, LIDAR_PORT)
+        self.robot = hcr(self.port)
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=10)
