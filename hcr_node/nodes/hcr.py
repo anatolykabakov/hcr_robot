@@ -102,7 +102,7 @@ class HCRNode:
 
     def cmdVelCb(self,req):
         vLinear = req.linear.x 
-        vAngular = req.angular.z * (WHEELS_DIST/2)
+        vAngular = req.angular.z
         vr = ((2 * vLinear) + (WHEELS_DIST * vAngular))/2
         vl = ((2 * vLinear) - (WHEELS_DIST * vAngular))/2
         k = max(abs(vr),abs(vl))
