@@ -1,0 +1,19 @@
+<launch>
+
+  <node pkg="rviz" type="rviz" name="rviz"/>
+
+  <node pkg="gmapping" type="slam_gmapping" name="gmapping">
+      <param name="base_frame" value="base_link"/>
+      <param name="odom_frame" value="odom" />
+      <param name="delta" value="0.1" />
+  </node>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find online_slam)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find online_slam)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find online_slam)/params/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find online_slam)/params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find online_slam)/params/trajectory_planner.yaml" command="load" />
+  </node>
+
+</launch>

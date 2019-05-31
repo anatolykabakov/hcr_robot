@@ -14,7 +14,7 @@
   <run_depend>hcr_driver</run_depend>
   <run_depend>hcr_node</run_depend>
   <run_depend>hcr_2dnav</run_depend>
-
+  <run_depend>online_slam</run_depend>
   <export>
    <metapackage/>
   </export>

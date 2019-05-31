@@ -1,0 +1,15 @@
+<package>
+  <name>online_slam</name>
+  <version>0.2.0</version>
+  <description>
+    This package contains configuration and launch files for using the navigation stack with the HCR robot.
+  </description>
+  <author>Anatoly Kabakov</author>
+  <maintainer email="anatoly93rus@gmail.com">Anatoly Kabakov</maintainer>
+  <license>BSD</license>
+  <url>http://ros.org/wiki/hcr_2dnav</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>hcr_node</run_depend>
+</package>
