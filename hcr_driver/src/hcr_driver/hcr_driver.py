@@ -1,6 +1,6 @@
 import serial
 import time
-from rplidar import RPLidar
+
 
 #Arduino serial port
 ARDUINO_PORT = '/dev/ttyACM0'
