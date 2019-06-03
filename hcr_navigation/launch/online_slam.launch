@@ -1,7 +1,7 @@
 <launch>
 
   <group ns="robot1">
-  <include file="$(find neato_node)/launch/bringup.launch"/>
+  <include file="$(find hcr_node)/launch/bringup.launch"/>
 
 
   <node pkg="gmapping" type="slam_gmapping" name="gmapping">
@@ -11,11 +11,11 @@
   </node>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find neato_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find neato_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find neato_navigation)/params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find neato_navigation)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find neato_navigation)/params/trajectory_planner.yaml" command="load" />
+    <rosparam file="$(find hcr_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find hcr_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find hcr_navigation)/params/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find hcr_navigation)/params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find hcr_navigation)/params/trajectory_planner.yaml" command="load" />
   </node>
   </group>
 
