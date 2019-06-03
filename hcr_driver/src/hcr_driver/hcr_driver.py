@@ -1,6 +1,10 @@
 import serial
 import time
+<<<<<<< HEAD
+#from rplidar import RPLidar
+=======
 
+>>>>>>> e5150871b0bcb6601776ff3db19091f12b988f5d
 
 #Arduino serial port
 ARDUINO_PORT = '/dev/ttyACM0'

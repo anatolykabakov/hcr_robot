@@ -1,10 +1,8 @@
 <launch>
-  <param name="use_sim_time" value="false"/>
-
-  <node pkg="rviz" type="rviz" name="rviz"/>
+  <include file="$(find hcr_node)/launch/bringup.launch"/>
 
   <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find hcr_navigation)/maps/map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find neato_navigation)/maps/map.yaml"/>
 
   <!--- Run AMCL -->
   <node pkg="amcl" type="amcl" name="amcl" >
