@@ -1,6 +1,6 @@
 <launch>
 
-  <group ns="robot1">
+  
   <include file="$(find hcr_node)/launch/bringup.launch"/>
 
 
@@ -17,6 +17,6 @@
     <rosparam file="$(find hcr_navigation)/params/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find hcr_navigation)/params/trajectory_planner.yaml" command="load" />
   </node>
-  </group>
+  
 
 </launch>
