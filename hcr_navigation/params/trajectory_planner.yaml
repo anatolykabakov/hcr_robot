@@ -6,8 +6,8 @@ TrajectoryPlannerROS:
   min_in_place_vel_theta: 0.5
 
   acc_lim_theta: 0.25
-  acc_lim_x: 2.5
-  acc_lim_Y: 2.5
+  acc_lim_x: 0.5
+  acc_lim_Y: 0.5
 
   holonomic_robot: false
 
