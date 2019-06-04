@@ -15,7 +15,7 @@
     <rosparam file="$(find hcr_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find hcr_navigation)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find hcr_navigation)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find hcr_navigation)/params/trajectory_planner.yaml" command="load" />
+    <rosparam file="$(find hcr_navigation)/params/base_local_planner.yaml" command="load" />
   </node>
   
 
