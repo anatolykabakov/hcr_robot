@@ -1,4 +1,3 @@
-<!-- xml -->
 <launch>
 
   <arg name="robot_ns"             default="robot1"/>  <!-- create, roomba -->
