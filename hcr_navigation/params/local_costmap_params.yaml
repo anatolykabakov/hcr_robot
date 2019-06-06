@@ -9,5 +9,9 @@ local_costmap:
   origin_x: -1.5
   origin_y: -1.5
   resolution: 0.1
+<<<<<<< HEAD
   inflation_radius: 0.5
+=======
+  inflation_radius: 0.2
+>>>>>>> 4ca14327d7098e80b69dc9f15b064e185d318a22
 
