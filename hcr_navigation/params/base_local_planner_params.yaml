@@ -11,7 +11,7 @@ TrajectoryPlannerROS:
   yaw_goal_tolerance: 0.1
   xy_goal_tolerance: 0.1
   goal_distance_bias: 0.8
-  path_distance_bias: 0.6
+  path_distance_bias: 0.1
   sim_time: 1.5
   heading_lookahead: 0.325
   
