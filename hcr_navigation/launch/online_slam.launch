@@ -3,20 +3,9 @@
   
   <include file="$(find hcr_node)/launch/bringup.launch"/>
 
+  <include file="$(find hcr_navigation)/launch/gmapping.launch"/>
 
-  <node pkg="gmapping" type="slam_gmapping" name="gmapping">
-      <param name="base_frame" value="base_link"/>
-      <param name="odom_frame" value="odom" />
-      <param name="delta" value="0.01" />
-  </node>
-
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find hcr_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find hcr_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find hcr_navigation)/params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find hcr_navigation)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find hcr_navigation)/params/base_local_planner_params.yaml" command="load" />
-  </node>
+  <include file="$(find hcr_navigation)/launch/move_base.launch"/>
   
 
 </launch>
