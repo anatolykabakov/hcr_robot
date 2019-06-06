@@ -7,7 +7,7 @@
   <node pkg="gmapping" type="slam_gmapping" name="gmapping">
       <param name="base_frame" value="base_link"/>
       <param name="odom_frame" value="odom" />
-      <param name="delta" value="0.1" />
+      <param name="delta" value="0.01" />
   </node>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
