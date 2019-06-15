@@ -4,6 +4,10 @@
   <group ns="$(arg robot_ns)">
   <param name="tf_prefix" type="string" value="$(arg robot_ns)_tf"/>
   <include file="$(find hcr_node)/launch/bringup.launch"/>
+
+  <include file="$(find hcr_navigation)/launch/gmapping.launch"/>
+
+  <include file="$(find hcr_navigation)/launch/move_base.launch"/>
     
   </group>
 
