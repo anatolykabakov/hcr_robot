@@ -2,7 +2,7 @@
   <include file="$(find hcr_node)/launch/bringup.launch"/>
 
   <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find neato_navigation)/maps/map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find hcr_navigation)/maps/map.yaml"/>
 
   <!--- Run AMCL -->
   <node pkg="amcl" type="amcl" name="amcl" >
@@ -14,7 +14,7 @@
     <rosparam file="$(find hcr_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find hcr_navigation)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find hcr_navigation)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find hcr_navigation)/params/trajectory_planner.yaml" command="load" />
+    <rosparam file="$(find hcr_navigation)/params/base_local_planner_params.yaml" command="load" />
   </node>
 </launch>
 
