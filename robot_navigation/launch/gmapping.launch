@@ -1,7 +1,7 @@
 <launch>
   <arg name="ns" default="tb3_0"/>
 
-
+  <group ns="$(arg robot_ns)">
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">   
      <param name="output_frame_id" value="$(arg ns)/base_link"/>
      <remap from="/scan" to="$(arg ns)/scan"/> 
@@ -10,6 +10,7 @@
      <param name="_base_frame" value="$(arg ns)/base_link" />
      <param name="_inverted_laser" value="false" />
  </node>
+ </group>
 
 
 

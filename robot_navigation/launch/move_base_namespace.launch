@@ -23,7 +23,7 @@
       value="$(arg robot_namespace)/base_link"/>
 
     <!-- Centralized map server -->
-    <remap from="map" to="/map"/>
+    <remap from="map" to="$(arg robot_namespace)/map"/>
   </node>
   </group>
   
