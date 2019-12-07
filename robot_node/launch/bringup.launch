@@ -1,5 +1,5 @@
 <launch>
-  <arg name="robot_ns" default="robot_0"/> 
+  <arg name="robot_ns" default=""/> 
   <arg name="robot_port" default="/dev/ttyUSB0"/>  
   <arg name="robot_rate" default="115200"/> 
   <arg name="lidar_port" default="/dev/ttyUSB1"/>

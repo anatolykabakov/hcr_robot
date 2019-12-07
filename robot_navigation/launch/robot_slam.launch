@@ -9,7 +9,7 @@
     <arg name="ns" value="$(arg robot_ns)" />
   </include>
 
-  <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
+  <include file="$(find robot_navigation)/launch/move_base_namespace2.launch">
     <arg name="robot_namespace" value="$(arg robot_ns)" />
   </include>
     
