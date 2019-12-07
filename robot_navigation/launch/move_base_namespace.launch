@@ -2,7 +2,7 @@
   <arg name="robot_namespace"/>
   <group ns="$(arg robot_namespace)">
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" >
     <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find robot_navigation)/params/local_costmap_params.yaml" command="load" />
