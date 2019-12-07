@@ -11,6 +11,7 @@
       <param name="publish_frequency" type="double" value="50.0" />
       <param name="tf_prefix" value="$(arg robot_ns)" />
     </node>
+    
   
     <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
         <param name="port" type="string" value="$(arg robot_port)"/>
