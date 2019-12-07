@@ -1,5 +1,5 @@
 <package>
-  <name>hcr_driver</name>
+  <name>robot_driver</name>
   <version>0.2.0</version>
   <description>
     This is a generic drivers for the HCR Robot.

@@ -1,5 +1,5 @@
 <package>
-  <name>hcr_robot</name>
+  <name>robot</name>
   <version>0.2.0</version>
   <description>
     Metapackage for drivers for the HCR robot. 
@@ -11,9 +11,9 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>hcr_driver</run_depend>
-  <run_depend>hcr_node</run_depend>
-  <run_depend>hcr_navigation</run_depend>
+  <run_depend>robot_driver</run_depend>
+  <run_depend>robot_node</run_depend>
+  <run_depend>robot_navigation</run_depend>
   <export>
    <metapackage/>
   </export>

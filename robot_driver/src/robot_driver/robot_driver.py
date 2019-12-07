@@ -1,35 +1,30 @@
 import serial
 import time
 
-
-#Arduino serial port
-ARDUINO_PORT = '/dev/ttyACM0'
-ARDUINO_SPEED = 115200
-
 #Arduino protocol
 set_command = 'v'
 print_command = 'd'
 start_connect = 's'
 
 #robot parameters
-MAX_SPEED = 0.3#m/s
+MAX_rate = 0.3#m/s
 WHEELS_DIST = 0.275
 WHEELS_RAD  = 0.0675
 
-class hcr():
-    def __init__(self, ARDUINO_PORT='/dev/ttyACM0'):
-        self.connect = self.openconnect(ARDUINO_PORT, ARDUINO_SPEED)
+class robot_driver():
+    def __init__(self, port, rate):
+        self.connect = self.openconnect(port, rate)
 
     def check_connect(self, connect):
         c = connect.read(1).decode()
         if c != 'c':
             self.stop()
 
-    def openconnect(self, port, speed):
-        connect = serial.Serial(port, speed)
+    def openconnect(self, port, rate):
+        connect = serial.Serial(port, rate)
         time.sleep(1)
         while not connect.is_open:
-            self.openconnect(port, speed)
+            self.openconnect(port, rate)
         is_connected = False
         while not is_connected:
             print("Waiting for arduino...")
@@ -69,15 +64,3 @@ class hcr():
     def setMotors(self, rightVelocity, leftVelocity):
         self.send(rightVelocity, leftVelocity)
     
-
-
-if __name__ == '__main__':
-
-    robot = hcr(ARDUINO_PORT, LIDAR_PORT)
-    while True:
-        try:
-            right, left = robot.getMotors()
-            scan = robot.getScan()
-            robot.setMotors(0.2,0.2)
-        except KeyboardInterrupt:
-            robot.stop()

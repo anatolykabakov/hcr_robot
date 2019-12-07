@@ -15,7 +15,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
 
-from hcr_driver.hcr_driver import hcr, WHEELS_DIST, WHEELS_RAD, MAX_SPEED
+from robot_driver.robot_driver import hcr, WHEELS_DIST, WHEELS_RAD, MAX_SPEED
 #Arduino serial port
 ARDUINO_PORT = '/dev/ttyACM0'
 ARDUINO_SPEED = 115200
@@ -28,10 +28,11 @@ class HCRNode:
         """ Start up connection to the HCR Robot. """
         rospy.init_node('hcr')
 
-        self.port = rospy.get_param('~port', ARDUINO_PORT)
-        rospy.loginfo("Using port: %s"%(self.port))
+        arduino_port = rospy.get_param('~port', ARDUINO_PORT)
+        arduino_rate = rospy.get_param('~rate', ARDUINO_SPEED)
+        rospy.loginfo("Using port: %s"%(arduino_port))
 
-        self.robot = hcr(self.port)
+        self.robot = hcr(arduino_port, arduino_rate)
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=10)
