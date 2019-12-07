@@ -51,7 +51,7 @@ class robot_node:
         then = rospy.Time.now()
 
         frame_id_tf = "/odom"#self.tf_prefix + "/odom"
-        child_frame_id_tf = '/base_link'#self.tf_prefix + '/base_link'
+        child_frame_id_tf = '/base_footprint'#self.tf_prefix + '/base_link'
         odom = Odometry(header=rospy.Header(frame_id=frame_id_tf), child_frame_id=child_frame_id_tf)
     
         # main loop of driver
