@@ -7,7 +7,6 @@
   <arg name="tf_prefix" default="$(arg robot_ns)"/> 
 
   <group ns="$(arg robot_ns)">
-    <param name="tf_prefix" value="$(arg tf_prefix)"></param>
 
     <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
         <param name="port" type="string" value="$(arg robot_port)"/>
