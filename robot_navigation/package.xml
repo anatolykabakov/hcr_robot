@@ -1,5 +1,5 @@
 <package>
-  <name>hcr_navigation</name>
+  <name>robot_navigation</name>
   <version>0.2.0</version>
   <description>
     This package contains configuration and launch files for using the navigation stack with the HCR robot.
