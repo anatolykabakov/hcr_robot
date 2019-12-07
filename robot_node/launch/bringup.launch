@@ -29,6 +29,7 @@
       args="0 0 0.0 0 0 0 $(arg tf_prefix)/odom $(arg tf_prefix)/base_link 100" /-->
     <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
       args="0 0 0.2 3.14 0 0 $(arg tf_prefix)/base_link $(arg tf_prefix)/laser_frame 100" />
+    
 
   </group>
 
