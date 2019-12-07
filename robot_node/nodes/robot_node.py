@@ -19,6 +19,7 @@ from robot_driver.robot_driver import robot_driver, WHEELS_DIST, WHEELS_RAD, MAX
 #Arduino serial port
 ARDUINO_PORT = '/dev/ttyACM0'
 ARDUINO_SPEED = 115200
+TF_PREFIX = ""
 
 
 
@@ -30,6 +31,7 @@ class robot_node:
 
         arduino_port = rospy.get_param('~port', ARDUINO_PORT)
         arduino_rate = rospy.get_param('~rate', ARDUINO_SPEED)
+        tf_prefix = rospy.get_param('~tf_prefix', TF_PREFIX)
         rospy.loginfo("Using port: %s"%(arduino_port))
 
         self.robot = robot_driver(arduino_port, arduino_rate)
@@ -48,8 +50,9 @@ class robot_node:
         self.th = 0
         then = rospy.Time.now()
 
-
-        odom = Odometry(header=rospy.Header(frame_id="odom"), child_frame_id='base_link')
+        frame_id_tf = tf_prefix + "odom"
+        child_frame_id_tf = tf_prefix + 'base_link'
+        odom = Odometry(header=rospy.Header(frame_id=frame_id_tf), child_frame_id=child_frame_id_tf)
     
         # main loop of driver
         r = rospy.Rate(5)
@@ -92,7 +95,7 @@ class robot_node:
 
             # publish everything
             self.odomBroadcaster.sendTransform( (self.x, self.y, 0), (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
-                then, "base_link", "odom" )
+                then, child_frame_id_tf, frame_id_tf )
             self.odomPub.publish(odom)
 
             # wait, then do it again
