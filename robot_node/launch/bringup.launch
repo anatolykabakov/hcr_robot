@@ -6,12 +6,12 @@
   <arg name="tf_prefix" default="$(arg robot_ns)"/> 
 
   <group ns="$(arg robot_ns)">
-    <param name="tf_prefix" value="robot1_tf" />
+    <param name="tf_prefix" value="$(arg robot_ns)" />
   
     <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
         <param name="port" type="string" value="$(arg robot_port)"/>
         <param name="rate" type="int"    value="$(arg robot_rate)"/>
-        <param name="tf_prefix" type="string"    value="$(arg robot_ns)"/>
+        <param name="tf_prefix" type="string"    value="$(arg tf_prefix)"/>
     </node>
 
     <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
