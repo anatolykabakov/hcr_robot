@@ -7,7 +7,7 @@ print_command = 'd'
 start_connect = 's'
 
 #robot parameters
-MAX_rate = 0.3#m/s
+MAX_SPEED = 0.3#m/s
 WHEELS_DIST = 0.275
 WHEELS_RAD  = 0.0675
 
