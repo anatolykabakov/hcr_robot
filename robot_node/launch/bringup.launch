@@ -5,37 +5,32 @@
   <arg name="lidar_port" default="/dev/ttyUSB1"/>
   <arg name="tf_prefix" default="$(arg robot_ns)"/> 
 
-  <!--group ns="$(arg robot_ns)"-->
-    <!--param name="tf_prefix" value="$(arg robot_ns)" /-->
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
-      <param name="publish_frequency" type="double" value="50.0" />
-      <param name="tf_prefix" value="$(arg robot_ns)" />
-    </node>
-    
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" value="$(arg tf_prefix)" />
+  </node>
+
+
+  <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
+      <param name="port" type="string" value="$(arg robot_port)"/>
+      <param name="rate" type="int"    value="$(arg robot_rate)"/>
+      <param name="tf_prefix" type="string"    value="$(arg tf_prefix)"/>
+  </node>
+
+  <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+    <param name="serial_port"         type="string" value="$(arg lidar_port)"/>
+    <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
+    <!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
+    <param name="frame_id"            type="string" value="base_scan"/>
+    <param name="inverted"            type="bool"   value="false"/>
+    <param name="angle_compensate"    type="bool"   value="true"/>
+  </node>
   
-    <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
-        <param name="port" type="string" value="$(arg robot_port)"/>
-        <param name="rate" type="int"    value="$(arg robot_rate)"/>
-        <param name="tf_prefix" type="string"    value="$(arg tf_prefix)"/>
-    </node>
-
-    <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
-      <param name="serial_port"         type="string" value="$(arg lidar_port)"/>
-      <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
-      <!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
-      <param name="frame_id"            type="string" value="base_scan"/>
-      <param name="inverted"            type="bool"   value="false"/>
-      <param name="angle_compensate"    type="bool"   value="true"/>
-    </node>
-    
-    <!--node pkg="tf" type="static_transform_publisher" name="odom_broadcaster" 
-      args="0 0 0.0 0 0 0 odom (arg tf_prefix)/odom 100" /-->
-    <!--node pkg="tf" type="static_transform_publisher" name="base_broadcaster" 
-      args="0 0 0.0 0 0 0 $(arg tf_prefix)/odom $(arg tf_prefix)/base_link 100" /-->
-    <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
-      args="0 0 0.2 3.14 0 0 base_link laser_frame 100" />
-    
-
-  <!--/group-->
+  <!--node pkg="tf" type="static_transform_publisher" name="odom_broadcaster" 
+    args="0 0 0.0 0 0 0 odom (arg tf_prefix)/odom 100" /-->
+  <!--node pkg="tf" type="static_transform_publisher" name="base_broadcaster" 
+    args="0 0 0.0 0 0 0 $(arg tf_prefix)/odom $(arg tf_prefix)/base_link 100" /-->
+  <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
+    args="0 0 0.2 3.14 0 0 base_link laser_frame 100" />
 
 </launch>
