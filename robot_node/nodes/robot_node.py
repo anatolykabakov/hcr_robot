@@ -26,7 +26,7 @@ class HCRNode:
 
     def __init__(self):
         """ Start up connection to the HCR Robot. """
-        rospy.init_node('hcr')
+        rospy.init_node('robot_node')
 
         arduino_port = rospy.get_param('~port', ARDUINO_PORT)
         arduino_rate = rospy.get_param('~rate', ARDUINO_SPEED)
