@@ -2,7 +2,8 @@
   <arg name="robot_ns" default="robot_0"/> 
   <arg name="robot_port" default="/dev/ttyUSB0"/>  
   <arg name="robot_rate" default="115200"/> 
-  <arg name="lidar_port" default="/dev/ttyUSB1"/> 
+  <arg name="lidar_port" default="/dev/ttyUSB1"/>
+  <arg name="tf_prefix" default="$(arg robot_ns)"/> 
 
   <group ns="$(arg robot_ns)">
   
@@ -20,8 +21,12 @@
       <param name="angle_compensate"    type="bool"   value="true"/>
     </node>
 
+    
+
     <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
-      args="0 0 0.2 3.14 0 0 base_link laser_frame 100" />
+      args="0 0 0.2 3.14 0 0 $(arg tf_prefix)/base_link laser_frame 100" />
+    <node pkg="tf" type="static_transform_publisher" name="odom_broadcaster" 
+      args="0 0 0.0 0 0 0 $(arg tf_prefix)/odom odom 100" />
 
   </group>
 
