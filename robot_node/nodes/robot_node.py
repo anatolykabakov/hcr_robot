@@ -4,7 +4,7 @@
 ROS node for HCR Robot.
 """
 
-import roslib; roslib.load_manifest("hcr_node")
+import roslib; roslib.load_manifest("robot_node")
 import rospy
 from math import sin,cos
 import numpy as np
