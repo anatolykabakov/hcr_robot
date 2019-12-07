@@ -5,11 +5,6 @@
   <arg name="lidar_port" default="/dev/ttyUSB1"/> 
 
   <group ns="$(arg robot_ns)">
-
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
-      <param name="publish_frequency" type="double" value="50.0" />
-      <param name="tf_prefix" value="$(arg robot_ns)" />
-    </node>
   
     <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
         <param name="port" type="string" value="$(arg robot_port)"/>
