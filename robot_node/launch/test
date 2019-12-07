@@ -1,1 +1,0 @@
-ROS_NAMESPACE=tb3_2 roslaunch turtlebot3_slam gmapping.launch set_base_frame:=tb3_2/base_footprint set_odom_frame:=tb3_2/odom set_map_frame:=tb3_2/map
