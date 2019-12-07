@@ -1,7 +1,7 @@
 <launch>
   <arg name="ns" default="tb3_0"/>
 
-  <group ns="$(arg robot_ns)">
+  <group ns="$(arg ns)">
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">   
      <param name="output_frame_id" value="$(arg ns)/base_link"/>
      <remap from="/scan" to="$(arg ns)/scan"/> 
