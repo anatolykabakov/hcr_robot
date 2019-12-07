@@ -22,7 +22,7 @@ ARDUINO_SPEED = 115200
 
 
 
-class HCRNode:
+class robot_node:
 
     def __init__(self):
         """ Start up connection to the HCR Robot. """
@@ -32,7 +32,7 @@ class HCRNode:
         arduino_rate = rospy.get_param('~rate', ARDUINO_SPEED)
         rospy.loginfo("Using port: %s"%(arduino_port))
 
-        self.robot = hcr(arduino_port, arduino_rate)
+        self.robot = robot_driver(arduino_port, arduino_rate)
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=10)
@@ -129,6 +129,6 @@ def normalize_angle(angle):
 
 
 if __name__ == "__main__":    
-    robot = HCRNode()
+    robot = robot_node()
     robot.spin()
 
