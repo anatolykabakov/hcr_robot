@@ -31,7 +31,7 @@ class robot_node:
 
         arduino_port = rospy.get_param('~port', ARDUINO_PORT)
         arduino_rate = rospy.get_param('~rate', ARDUINO_SPEED)
-        tf_prefix = rospy.get_param('~tf_prefix', TF_PREFIX)
+        self.tf_prefix = rospy.get_param('~tf_prefix', TF_PREFIX)
         rospy.loginfo("Using port: %s"%(arduino_port))
 
         self.robot = robot_driver(arduino_port, arduino_rate)
@@ -50,8 +50,8 @@ class robot_node:
         self.th = 0
         then = rospy.Time.now()
 
-        frame_id_tf = tf_prefix + "odom"
-        child_frame_id_tf = tf_prefix + 'base_link'
+        frame_id_tf = self.tf_prefix + "odom"
+        child_frame_id_tf = self.tf_prefix + 'base_link'
         odom = Odometry(header=rospy.Header(frame_id=frame_id_tf), child_frame_id=child_frame_id_tf)
     
         # main loop of driver
