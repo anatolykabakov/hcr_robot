@@ -1,0 +1,18 @@
+<launch>
+
+  <arg name="robot_ns"             default="robot"/>  <!-- create, roomba -->
+  <group ns="$(arg robot_ns)">
+  
+  <!--include file="$(find robot_node)/launch/bringup.launch"/-->
+
+  <include file="$(find hcr_navigation)/launch/gmapping.launch">
+    <arg name="robot_namespace" value="$(arg robot_ns)" />
+  </include>
+
+  <include file="$(find hcr_navigation)/launch/move_base.launch">
+    <arg name="ns" value="$(arg robot_ns)" />
+  </include>
+    
+  </group>
+
+</launch>
