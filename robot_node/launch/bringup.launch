@@ -6,7 +6,7 @@
   <arg name="lidar_port" default="/dev/ttyUSB1"/>
   <arg name="tf_prefix" default="$(arg robot_ns)"/> 
 
-  <group ns="$(arg robot_ns)">
+  <!--group ns="$(arg robot_ns)"-->
 
     <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
         <param name="port" type="string" value="$(arg robot_port)"/>
@@ -29,6 +29,6 @@
       args="0 0 0.0 0 0 0 $(arg tf_prefix)/odom $(arg tf_prefix)/base_link 100" /-->
     <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
       args="0 0 0.2 3.14 0 0 $(arg tf_prefix)/base_link $(arg tf_prefix)/base_scan 100" />
-  </group>
+  <!--/group-->
 
 </launch>
