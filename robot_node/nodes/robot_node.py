@@ -49,9 +49,12 @@ class robot_node:
         self.y = 0
         self.th = 0
         then = rospy.Time.now()
-
-        frame_id_tf = self.tf_prefix + "/odom"
-        child_frame_id_tf = self.tf_prefix + '/base_link'
+        if self.tf_prefix != "":
+            frame_id_tf = self.tf_prefix + "/" + "odom"
+            child_frame_id_tf = self.tf_prefix + "/" +'base_link'
+        else:
+            frame_id_tf = "odom"
+            child_frame_id_tf = 'base_link'
         odom = Odometry(header=rospy.Header(frame_id=frame_id_tf), child_frame_id=child_frame_id_tf)
     
         # main loop of driver
