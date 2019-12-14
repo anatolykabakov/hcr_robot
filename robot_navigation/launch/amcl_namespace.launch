@@ -9,13 +9,8 @@
   <arg name="initial_pose_y" default="0.0"/>
   <arg name="initial_pose_a" default="0.0"/>
 
-  <!-- Default value for location of map config file -->
-  <arg name="map_file" default="$(find robot_navigation)/maps/room.yaml"/>
 
-  <!-- Map Server -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
-
-  <group ns="robot_0">
+  <group ns="$(arg robot_ns)">
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
 
       <!--rosparam file="$(find turtlebot3_nps)/param/amcl_params.yaml" command="load" /-->
@@ -23,9 +18,9 @@
       <param name="initial_pose_y" value="$(arg initial_pose_y)"/>
       <param name="initial_pose_a" value="$(arg initial_pose_a)"/>
 
-      <param name="odom_frame_id"  value="robot_0/odom"/>
-      <param name="base_frame_id"  value="robot_0/base_link"/>
-      <remap from="scan"           to="/robot_0/scan"/>
+      <param name="odom_frame_id"  value="$(arg robot_ns)/odom"/>
+      <param name="base_frame_id"  value="$(arg robot_ns)/base_link"/>
+      <remap from="scan"           to="/$(arg robot_ns)/scan"/>
 
       <!-- Use the single map server -->
       <remap from="static_map" to="/static_map"/>

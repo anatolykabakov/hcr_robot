@@ -14,8 +14,11 @@ ROS_NAMESPACE=robot_1 roslaunch turtlebot3_slam turtlebot3_gmapping.launch set_b
 
 roslaunch turtlebot3_nps multi_map_merge.launch
 
+cd catkin_ws
+
+source devel/setup.bash
+
 roslaunch robot_node bringup.launch robot_ns:=robot_0
 
-roslaunch bringup.launch robot_ns:=robot_1
+roslaunch robot_node bringup.launch robot_ns:=robot_1
 
-roslaunch robot_navigation amcl_multi.launch
