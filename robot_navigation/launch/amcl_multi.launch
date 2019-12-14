@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Bringup two turtlebot3s - laptop/remotepc portion -->
+
+  <!-- Command Line Arguments -->
+  <arg name="robot_ns" default="robot_1"/>
+  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_y" default="0.0"/>
+  <arg name="initial_pose_a" default="0.0"/>
+
+  <!-- Default value for location of map config file -->
+  <arg name="map_file" default="$(find robot_navigation)/maps/room.yaml"/>
+
+  <!-- Map Server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <group ns="robot_0">
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+
+      <!--rosparam file="$(find turtlebot3_nps)/param/amcl_params.yaml" command="load" /-->
+      <param name="initial_pose_x" value="$(arg initial_pose_x)"/>
+      <param name="initial_pose_y" value="$(arg initial_pose_y)"/>
+      <param name="initial_pose_a" value="$(arg initial_pose_a)"/>
+
+      <param name="odom_frame_id"  value="robot_0/odom"/>
+      <param name="base_frame_id"  value="robot_0/base_link"/>
+      <remap from="scan"                      to="/robot_0/scan"/>
+
+      <!-- Use the single map server -->
+      <remap from="static_map" to="/static_map"/>
+
+
+  </node>
+  </group>
+
+  <group ns="robot_1">
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+
+      <!--rosparam file="$(find turtlebot3_nps)/param/amcl_params.yaml" command="load" /-->
+      <param name="initial_pose_x" value="$(arg initial_pose_x)"/>
+      <param name="initial_pose_y" value="$(arg initial_pose_y)"/>
+      <param name="initial_pose_a" value="$(arg initial_pose_a)"/>
+
+      <param name="odom_frame_id"  value="robot_1/odom"/>
+      <param name="base_frame_id"  value="robot_1/base_link"/>
+      <remap from="scan"                      to="/robot_1/scan"/>
+
+      <!-- Use the single map server -->
+      <remap from="static_map" to="/static_map"/>
+
+
+  </node>
+  </group>
+</launch>

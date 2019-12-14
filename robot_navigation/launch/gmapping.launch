@@ -6,7 +6,7 @@
   <arg name="set_base_frame" default="base_link"/>
   <arg name="set_odom_frame" default="odom"/>
   <arg name="set_map_frame"  default="map"/>
-  <arg name="scan"  default="map"/>
+  <arg name="scan"  default="scan"/>
 
   <!-- Gmapping -->
   <node pkg="gmapping" type="slam_gmapping" name="turtlebot3_slam_gmapping" output="screen">
@@ -42,6 +42,6 @@
     <param name="llsamplestep" value="0.01"/>
     <param name="lasamplerange" value="0.005"/>
     <param name="lasamplestep" value="0.005"/>
-    <remap from="scan" to="$(arg robot_ns)/scan" />
+    <remap from="scan" to="scan" />
   </node>
 </launch>

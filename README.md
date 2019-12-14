@@ -13,3 +13,9 @@ ROS_NAMESPACE=robot_0 roslaunch turtlebot3_slam turtlebot3_gmapping.launch set_b
 ROS_NAMESPACE=robot_1 roslaunch turtlebot3_slam turtlebot3_gmapping.launch set_base_frame:=robot_1/base_link set_odom_frame:=robot_1/odom set_map_frame:=robot_1/map
 
 roslaunch turtlebot3_nps multi_map_merge.launch
+
+roslaunch robot_node bringup.launch robot_ns:=robot_0
+
+roslaunch bringup.launch robot_ns:=robot_1
+
+roslaunch robot_navigation amcl_multi.launch
