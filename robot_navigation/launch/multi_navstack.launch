@@ -15,19 +15,23 @@
 
   <!-- Map Server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
-
+  
+  <!-- AMCL -->
   <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_name_1)" />
   </include>
 
+  <!-- Move Base -->
   <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_name_1)" />
   </include>
-
+  
+  <!-- AMCL -->
   <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_name_2)" />
   </include>
-
+  
+  <!-- Move Base -->
   <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_name_2)" />
   </include>

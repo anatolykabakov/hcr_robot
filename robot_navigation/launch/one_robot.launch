@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Bringup two turtlebot3s - laptop/remotepc portion -->
+
+  <!-- Command Line Arguments -->
+  <arg name="name" default="robot_0"/>
+
+  <!-- Default value for location of map config file -->
+  <arg name="map_file" default="$(find robot_navigation)/maps/room.yaml"/>
+
+  <!-- Map Server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+  
+  <!-- AMCL -->
+  <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
+    <arg name="robot_ns" value="$(arg name)" />
+  </include>
+  
+  <!-- Move Base -->
+  <!-- <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
+    <arg name="robot_ns" value="$(arg robot_name_2)" />
+  </include> -->
+
+</launch>

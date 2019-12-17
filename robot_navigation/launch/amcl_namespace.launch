@@ -19,7 +19,7 @@
       <param name="initial_pose_a" value="$(arg initial_pose_a)"/>
 
       <param name="odom_frame_id"  value="$(arg robot_ns)/odom"/>
-      <param name="base_frame_id"  value="$(arg robot_ns)/base_link"/>
+      <param name="base_frame_id"  value="$(arg robot_ns)/base_scan"/>
       <remap from="scan"           to="/$(arg robot_ns)/scan"/>
 
       <!-- Use the single map server -->
