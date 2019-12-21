@@ -15,7 +15,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
 
-from robot_driver import arduino_protocol
+from robot_driver import protocol
 #Arduino serial port
 ARDUINO_PORT = '/dev/ttyACM0'
 ARDUINO_SPEED = 115200
