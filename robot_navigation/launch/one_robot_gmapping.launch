@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find robot_node)/launch/bringup_for_one.launch"/>
+
+  <include file="$(find robot_navigation)/launch/gmapping_no_params.launch"/>
+
+  <include file="$(find robot_navigation)/launch/move_base_simple.launch"/>
+</launch>

@@ -22,9 +22,9 @@ ARDUINO_SPEED = 115200
 TF_PREFIX = ""
 
 #robot parameters
-MAX_SPEED = 0.3#m/s
-WHEELS_DIST = 0.275
-WHEELS_RAD  = 0.0675
+MAX_SPEED = 0#m/s
+WHEELS_DIST = 0
+WHEELS_RAD  = 0
 
 class robot_node:
 
@@ -34,6 +34,9 @@ class robot_node:
 
         arduino_port = rospy.get_param('~port', ARDUINO_PORT)
         arduino_rate = rospy.get_param('~rate', ARDUINO_SPEED)
+        self.wheel_dist = rospy.get_param('~wheel_dist', WHEELS_DIST)
+        self.wheel_radius = rospy.get_param('~wheel_radius', WHEELS_RAD)
+        self.max_speed = rospy.get_param('~max_speed', WHEELS_RAD)
         self.tf_prefix = rospy.get_param('~tf_prefix', TF_PREFIX)
         rospy.loginfo("Using port: %s"%(arduino_port))
 
@@ -76,10 +79,10 @@ class robot_node:
             then = odom.header.stamp
             
             #odometry navigation
-            omegaRight = vr/WHEELS_RAD
-            omegaLeft  = vl/WHEELS_RAD
-            linear_velocity = (WHEELS_RAD/2)*(omegaRight + omegaLeft)
-            angular_velocity = (WHEELS_RAD/WHEELS_DIST)*(omegaRight - omegaLeft)
+            omegaRight = vr/self.wheel_radius
+            omegaLeft  = vl/self.wheel_radius
+            linear_velocity = (self.wheel_radius/2)*(omegaRight + omegaLeft)
+            angular_velocity = (self.wheel_radius/self.wheel_dist)*(omegaRight - omegaLeft)
             self.th+=(angular_velocity * dt)
             self.th = normalize_angle(self.th)
             self.x += linear_velocity*cos(self.th) * dt
@@ -113,12 +116,12 @@ class robot_node:
     def cmdVelCb(self,req):
         vLinear = req.linear.x 
         vAngular = req.angular.z
-        vr = ((2 * vLinear) + (WHEELS_DIST * vAngular))/2
-        vl = ((2 * vLinear) - (WHEELS_DIST * vAngular))/2
+        vr = ((2 * vLinear) + (self.wheel_dist * vAngular))/2
+        vl = ((2 * vLinear) - (self.wheel_dist * vAngular))/2
         k = max(abs(vr),abs(vl))
         # sending commands higher than max speed will fail
-        if k > MAX_SPEED:
-            vr = vr*MAX_SPEED/k; vl = vl*MAX_SPEED/k
+        if k > self.max_speed:
+            vr = vr*self.max_speed/k; vl = vl*self.max_speed/k
         self.cmd_vel = [ round(vr,1), round(vl,1) ]
 
 def normalize_angle(angle):
