@@ -15,13 +15,16 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
 
-from robot_driver.robot_driver import robot_driver, WHEELS_DIST, WHEELS_RAD, MAX_SPEED
+from robot_driver.robot_driver import arduino_protocol
 #Arduino serial port
 ARDUINO_PORT = '/dev/ttyACM0'
 ARDUINO_SPEED = 115200
 TF_PREFIX = ""
 
-
+#robot parameters
+MAX_SPEED = 0.3#m/s
+WHEELS_DIST = 0.275
+WHEELS_RAD  = 0.0675
 
 class robot_node:
 
@@ -34,7 +37,7 @@ class robot_node:
         self.tf_prefix = rospy.get_param('~tf_prefix', TF_PREFIX)
         rospy.loginfo("Using port: %s"%(arduino_port))
 
-        self.robot = robot_driver(arduino_port, arduino_rate)
+        self.robot = arduino_protocol(arduino_port, arduino_rate)
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=10)

@@ -6,12 +6,7 @@ set_command = 'v'
 print_command = 'd'
 start_connect = 's'
 
-#robot parameters
-MAX_SPEED = 0.3#m/s
-WHEELS_DIST = 0.275
-WHEELS_RAD  = 0.0675
-
-class robot_driver():
+class arduino_protocol():
     def __init__(self, port, rate):
         self.connect = self.openconnect(port, rate)
 
