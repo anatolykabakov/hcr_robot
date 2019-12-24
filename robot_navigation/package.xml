@@ -11,5 +11,5 @@
   
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>hcr_node</run_depend>
+  <run_depend>robot_node</run_depend>
 </package>

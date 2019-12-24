@@ -6,7 +6,7 @@ set_command = 'v'
 print_command = 'd'
 start_connect = 's'
 
-class arduino_protocol():
+class protocol():
     def __init__(self, port, rate):
         self.connect = self.openconnect(port, rate)
 

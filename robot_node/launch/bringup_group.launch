@@ -7,15 +7,12 @@
   <arg name="tf_prefix" default="$(arg robot_ns)"/> 
 
   <group ns="$(arg robot_ns)">
-        
 
     <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
-        <param name="port" type="string" value="$(arg robot_port)"/>
-        <param name="rate" type="int"    value="$(arg robot_rate)"/>
-        <param name="wheel_dist" type="double"    value="0.29"/>
-        <param name="wheel_radius" type="double"    value="0.7"/>
-        <param name="max_speed" type="double"    value="0.5"/>
-        <param name="tf_prefix" type="string"    value="$(arg tf_prefix)"/>
+      <rosparam file="$(find robot_node)/params/robot_params.yaml" command="load"/-->
+      <param name="arduino_port" type="string" value="$(arg robot_port)"/>
+      <param name="arduino_rate" type="int"    value="$(arg robot_rate)"/>
+      <param name="tf_prefix" type="string"    value="$(arg tf_prefix)"/>
     </node>
 
     <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">

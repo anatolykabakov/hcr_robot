@@ -15,15 +15,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
 
-#Arduino serial port
-ARDUINO_PORT = '/dev/ttyACM0'
-ARDUINO_SPEED = 115200
-TF_PREFIX = ""
-
-#robot parameters
-MAX_SPEED = 0#m/s
-WHEELS_DIST = 0
-WHEELS_RAD  = 0
+from arduino import protocol
 
 class robot_node:
 
@@ -31,15 +23,22 @@ class robot_node:
         """ Start up connection to the HCR Robot. """
         rospy.init_node('robot_node')
 
-        arduino_port = rospy.get_param('~port', ARDUINO_PORT)
-        arduino_rate = rospy.get_param('~rate', ARDUINO_SPEED)
-        self.wheel_dist = rospy.get_param('~wheel_dist', WHEELS_DIST)
-        self.wheel_radius = rospy.get_param('~wheel_radius', WHEELS_RAD)
-        self.max_speed = rospy.get_param('~max_speed', WHEELS_RAD)
-        self.tf_prefix = rospy.get_param('~tf_prefix', TF_PREFIX)
-        rospy.loginfo("Using port: %s"%(arduino_port))
+        arduino_port = rospy.get_param('~arduino_port')
+        arduino_rate = rospy.get_param('~arduino_rate', '')
 
-        self.robot = robot_driver.arduino_protocol.arduino_protocol(arduino_port, arduino_rate)
+        self.robot = protocol(arduino_port, arduino_rate)
+
+        self.wheel_dist = rospy.get_param('~wheel_dist')
+        self.wheel_radius = rospy.get_param('~wheel_radius')
+        self.max_speed = rospy.get_param('~max_speed')
+        self.tf_prefix = rospy.get_param('~tf_prefix')
+
+        rospy.loginfo("Arduino Using port: %s"%(arduino_port))
+        rospy.loginfo("Arduino Using rate: %s"%(arduino_rate))
+        rospy.loginfo("wheel_dist: %s"%(self.wheel_dist))
+        rospy.loginfo("wheel_radius: %s"%(self.wheel_radius))
+        rospy.loginfo("max_speed: %s"%(self.max_speed))
+        rospy.loginfo("tf_prefix: %s"%(self.tf_prefix))
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=10)
