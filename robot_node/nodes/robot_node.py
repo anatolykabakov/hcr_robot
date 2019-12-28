@@ -83,6 +83,7 @@ class robot_node:
             angular_velocity = (self.wheel_radius/self.wheel_dist)*(omegaRight - omegaLeft)
             self.th+=(angular_velocity * dt)
             self.th = normalize_angle(self.th)
+            print(self.th)
             self.x += linear_velocity*cos(self.th) * dt
             self.y += linear_velocity*sin(self.th) * dt
 
