@@ -14,7 +14,7 @@ from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
-import tf.transformations as tf
+import tf
 
 from arduino import protocol
 
@@ -85,7 +85,7 @@ class robot_node:
             self.x += linear_velocity*cos(self.th) * dt
             self.y += linear_velocity*sin(self.th) * dt
 
-            orientation_q = tf.quaternion_from_euler(0.0, 0.0, self.th)
+            orientation_q = tf.transformations.quaternion_from_euler(0.0, 0.0, self.th)
         
             # prepare odometry
             odom = Odometry(header=rospy.Header(frame_id=self.frame_id_tf), 
