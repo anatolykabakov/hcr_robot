@@ -6,8 +6,6 @@
   <!-- Command Line Arguments -->
   <arg name="robot_ns" default="robot_1"/>
 
-
-
   <group ns="$(arg robot_ns)">
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
       <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/>

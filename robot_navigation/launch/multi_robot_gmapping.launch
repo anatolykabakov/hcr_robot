@@ -1,19 +1,30 @@
 <launch>
 
-  <arg name="robot_ns"             default="robot_0"/>  <!-- create, roomba -->
-  <group ns="$(arg robot_ns)">
+  <arg name="robot_ns"             default="robot_1"/>  <!-- create, roomba -->
   
   <!--include file="$(find robot_node)/launch/bringup.launch"/-->
   
 
   <include file="$(find robot_navigation)/launch/gmapping.launch">
-    <arg name="ns" value="$(arg robot_ns)" />
+    <arg name="set_base_frame" default="$(arg robot_ns)/base_link"/>
+    <arg name="set_odom_frame" default="$(arg robot_ns)/odom"/>
+    <arg name="set_map_frame"  default="map"/>
+    <arg name="scan"  default="$(arg robot_ns)/scan"/>
   </include>
 
-  <include file="$(find robot_navigation)/launch/move_base_namespace2.launch">
-    <arg name="robot_namespace" value="$(arg robot_ns)" /-->
+  <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
+    <arg name="robot_ns" value="$(arg robot_ns)" />
   </include>
+
+ 
+
+  <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen">
+     <param name="frequency" type="double" value="1.0"/>
+     <param name="goal_aliasing" type="double" value="0.5"/>
+     <rosparam ns="explore_costmap" subst_value="true" file="$(find robot_navigation)/params/exploration.yaml" command="load" />
+  </node>
+
     
-  </group>
+
 
 </launch>

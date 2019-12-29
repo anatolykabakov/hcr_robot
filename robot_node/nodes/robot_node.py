@@ -115,8 +115,8 @@ class robot_node:
     def cmdVelCb(self,req):
         vLinear = req.linear.x 
         vAngular = req.angular.z
-        vr = ((2 * vLinear) + (self.wheel_dist * vAngular))/2
-        vl = ((2 * vLinear) - (self.wheel_dist * vAngular))/2
+        vr = ((2 * vLinear) + (self.wheel_dist * vAngular))/(2*self.wheel_radius)
+        vl = ((2 * vLinear) - (self.wheel_dist * vAngular))/(2*self.wheel_radius)
         k = max(abs(vr),abs(vl))
         # sending commands higher than max speed will fail
         if k > self.max_speed:

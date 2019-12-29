@@ -2,23 +2,23 @@
   <arg name="robot_ns"/>
   <group ns="$(arg robot_ns)">
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" >
-    <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find robot_navigation)/params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find robot_navigation)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find robot_navigation)/params/base_local_planner_params.yaml" command="load" />
-    <!-- Set tf_prefix for frames explicity, overwriting defaults -->
-    <param name="global_costmap/laser_scan_sensor/sensor_frame" value="$(arg robot_ns)/base_scan"/>
-    <param name="global_costmap/laser_scan_sensor/topic" value="$(arg robot_ns)/scan"/>
-    <param name="global_costmap/robot_base_frame" value="$(arg robot_ns)/base_link"/>
-    <param name="global_costmap/global_frame" value="map"/>
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" >
+      <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find robot_navigation)/params/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find robot_navigation)/params/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find robot_navigation)/params/base_local_planner_params.yaml" command="load" />
+      <!-- Set tf_prefix for frames explicity, overwriting defaults -->
+      <param name="global_costmap/laser_scan_sensor/sensor_frame" value="$(arg robot_ns)/base_scan"/>
+      <param name="global_costmap/laser_scan_sensor/topic" value="$(arg robot_ns)/scan"/>
+      <param name="global_costmap/robot_base_frame" value="$(arg robot_ns)/base_link"/>
+      <param name="global_costmap/global_frame" value="map"/>
 
-    <param name="local_costmap/laser_scan_sensor/sensor_frame" value="$(arg robot_ns)/base_scan"/>
-    <param name="local_costmap/laser_scan_sensor/topic" value="$(arg robot_ns)/scan"/>
-    <param name="local_costmap/robot_base_frame" value="$(arg robot_ns)/base_link"/>
-    <param name="local_costmap/global_frame" value="map"/>
-  </node>
+      <param name="local_costmap/laser_scan_sensor/sensor_frame" value="$(arg robot_ns)/base_scan"/>
+      <param name="local_costmap/laser_scan_sensor/topic" value="$(arg robot_ns)/scan"/>
+      <param name="local_costmap/robot_base_frame" value="$(arg robot_ns)/base_link"/>
+      <param name="local_costmap/global_frame" value="map"/>
+    </node>
   </group>
   
 

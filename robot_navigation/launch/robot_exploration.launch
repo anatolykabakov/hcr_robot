@@ -14,11 +14,10 @@
     <rosparam file="$(find robot_navigation)/params/trajectory_planner.yaml" command="load" />
   </node>
 
-  <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
-
-  <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen">
-     <param name="frequency" type="double" value="1.0"/>
-     <param name="goal_aliasing" type="double" value="0.5"/>
+  <arg name="sensor_range" default="12.0"/>
+  <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen" >
+        <param name="frequency" type="double" value="2.0"/>
+        <param name="goal_aliasing" type="double" value="$(arg sensor_range)"/>
      <rosparam ns="explore_costmap" subst_value="true" file="$(find robot_navigation)/params/exploration.yaml" command="load" />
   </node>
 
