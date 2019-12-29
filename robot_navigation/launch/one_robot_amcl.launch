@@ -8,16 +8,12 @@
 
   <!-- Map Server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
-
-  <!-- <include file="$(find robot_node)/launch/bringup_group.launch">
-    <arg name="robot_ns" value="$(arg robot_ns)" />
-  </include> -->
   
   <!-- AMCL -->
   <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_ns)" />
   </include>
-  
+
   <!-- Move Base -->
   <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_ns)" />

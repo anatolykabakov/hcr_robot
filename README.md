@@ -15,7 +15,7 @@ You can check this out into your catin workspace as follows:
 
 In robot
 
-roslaunch robot_node bringup.launch robot_ns:=robot_0 robot_port:=/dev/ttyUSB1 lidar_port:=/dev/ttyUSB0
+roslaunch robot_node bringup_group.launch robot_ns:=robot_0 robot_port:=/dev/ttyUSB1 lidar_port:=/dev/ttyUSB0
 
 or
 
