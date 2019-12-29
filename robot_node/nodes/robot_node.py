@@ -90,7 +90,7 @@ class robot_node:
             # prepare odometry
             odom = Odometry(header=rospy.Header(frame_id=self.frame_id_tf), 
                                                 child_frame_id=self.child_frame_id_tf)
-            odom.header.stamp = rospy.Time.now()
+            odom.header.stamp = then
             odom.pose.pose.position.x = self.x
             odom.pose.pose.position.y = self.y
             odom.pose.pose.position.z = 0
@@ -103,8 +103,13 @@ class robot_node:
 
             # publish everything
             self.odomBroadcaster.sendTransform( (self.x, self.y, 0), 
-                                                (orientation_q[0], orientation_q[1], orientation_q[2], orientation_q[3]),
-                                                 then, self.child_frame_id_tf, self.frame_id_tf )
+                                                (orientation_q[0],
+                                                 orientation_q[1], 
+                                                 orientation_q[2], 
+                                                 orientation_q[3]),
+                                                 then, 
+                                                 self.child_frame_id_tf, 
+                                                 self.frame_id_tf )
             self.odomPub.publish(odom)
 
             # send updated movement commands
