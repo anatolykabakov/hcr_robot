@@ -42,6 +42,7 @@ class robot_node:
         rospy.loginfo("tf_prefix: %s"%(self.tf_prefix))
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
+        
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=10)
         self.odomBroadcaster = TransformBroadcaster()
 
