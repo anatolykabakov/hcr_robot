@@ -9,12 +9,17 @@
   <!-- Map Server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
 
-  <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster1" 
-      args="0 0 0 3.14 0 0 map base_link 50" />
+  
 
-  <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster1" 
-      args="0 0 0 3.14 0 0 base_link base_scan 50" />
 
+  <!-- AMCL
+  <include file="$(find robot_node)/launch/bringup_group.launch">
+    <arg name="robot_ns" value="$(arg robot_ns)" />
+    <arg name="robot_port" default="/dev/ttyUSB1"/>  
+    <arg name="robot_rate" default="115200"/> 
+    <arg name="lidar_port" default="/dev/ttyUSB0"/>
+    <arg name="tf_prefix" default="$(arg robot_ns)"/> 
+  </include> -->
 
   <!-- AMCL -->
   <!-- <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
