@@ -20,9 +20,22 @@
   </include> -->
 
   <!-- AMCL -->
-  <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
+  <!-- <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_ns)" />
-  </include>
+  </include> -->
+
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/>
+
+    <param name="odom_frame_id"  value="$(arg robot_ns)/odom"/>
+    <param name="base_frame_id"  value="$(arg robot_ns)/base_scan"/>
+    <remap from="scan"           to="/$(arg robot_ns)/scan"/>
+    <!-- <param name="global_frame_id" value="map"/> -->
+
+    <!-- Use the single map server -->
+    <remap from="static_map" to="/static_map"/>
+    
+  </node>
 
   <!-- Move Base -->
   <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
