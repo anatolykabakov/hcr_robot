@@ -5,7 +5,7 @@
   <arg name="lidar_port" default="/dev/ttyUSB0"/>
 
   <node name="robot_node" pkg="robot_node" type="robot_node.py" output="screen">
-    <rosparam file="$(find robot_node)/params/hcr_params.yaml" command="load"/-->
+    <rosparam file="$(find robot_node)/params/hcr_params.yaml" command="load"/>
     <param name="arduino_port" type="string" value="$(arg robot_port)"/>
     <param name="arduino_rate" type="int"    value="$(arg robot_rate)"/>
     <param name="tf_prefix" type="string"    value=""/>
