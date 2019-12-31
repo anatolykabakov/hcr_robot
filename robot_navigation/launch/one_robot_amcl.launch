@@ -30,7 +30,7 @@
     <param name="odom_frame_id"  value="odom"/>
     <param name="base_frame_id"  value="base_scan"/>
     <remap from="scan"           to="scan"/>
-    <!-- <param name="global_frame_id" value="map"/> -->
+    <param name="global_frame_id" value="map"/>
 
     <!-- Use the single map server -->
     <remap from="static_map" to="/static_map"/>
