@@ -67,7 +67,7 @@ class robot_node:
             # prepare odometry
             odom = Odometry()
             odom.header.frame_id = self.frame_id_tf
-            odom.header.child_frame_id = self.child_frame_id_tf
+            odom.child_frame_id = self.child_frame_id_tf
             odom.header.stamp = rospy.Time.now()
             odom.pose.pose.position.x = x
             odom.pose.pose.position.y = y
