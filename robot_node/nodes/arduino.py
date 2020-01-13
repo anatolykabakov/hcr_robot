@@ -33,11 +33,6 @@ class protocol():
                 is_connected = True
                 print('Connected!')
         return connect
-        
-    def send(self, lvel, avel):
-        send_data = set_command + str(round(lvel,2)) + ' ' + str(round(avel,2)) + "\n"
-        self.connect.write(send_data.encode())
-        self.check_connect(self.connect)
 
     def arduino_stop(self):
         self.setMotors(0,0)
@@ -48,14 +43,23 @@ class protocol():
 
     def getMotors(self):
         self.connect.write(print_command.encode())
-        data = self.connect.read(12).decode()
+        data = self.connect.read(30).decode()
         #print(data) 
         self.check_connect(self.connect)
         data = data.split(';')
-        right = float(data[0])#m/s
-        left = float(data[1])
-        return right, left
+        x = float(data[0])
+        y = float(data[1])
+        yaw = float(data[2])
+        v = float(data[3])
+        w = float(data[4])
+        return x, y, yaw, v, w
  
-    def setMotors(self, rightVelocity, leftVelocity):
-        self.send(rightVelocity, leftVelocity)
+    def setMotors(self, v, w):
+        self.send(v, w)
+
+    def send(self, lvel, avel):
+        ### TODO: round(x, 2) or round(x, 1)
+        send_data = set_command + str(round(lvel,2)) + ' ' + str(round(avel,2)) + "\n"
+        self.connect.write(send_data.encode())
+        self.check_connect(self.connect)
     

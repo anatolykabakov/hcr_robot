@@ -1,5 +1,5 @@
 <launch>
-  <include file="$(find robot_navigation)/launch/gmapping_no_params.launch"/>
+  <include file="$(find robot_navigation)/launch/gmapping.launch"/>
 
   <include file="$(find robot_navigation)/launch/move_base_simple.launch"/>
 </launch>

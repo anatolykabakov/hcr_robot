@@ -16,15 +16,4 @@
     <arg name="robot_ns" value="$(arg robot_ns)" />
   </include>
 
- 
-
-  <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen">
-     <param name="frequency" type="double" value="1.0"/>
-     <param name="goal_aliasing" type="double" value="0.5"/>
-     <rosparam ns="explore_costmap" subst_value="true" file="$(find robot_navigation)/params/exploration.yaml" command="load" />
-  </node>
-
-    
-
-
 </launch>

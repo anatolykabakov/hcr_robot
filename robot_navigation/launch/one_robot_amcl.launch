@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <!-- Command Line Arguments -->
-  <arg name="robot_ns" default="robot_0"/>
+  <arg name="robot_ns" default="robot_1"/>
 
   <!-- Default value for location of map config file -->
   <arg name="map_file" default="$(find robot_navigation)/maps/mymap.yaml"/>
@@ -27,17 +27,27 @@
   </include> -->
 
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
-    <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/>
+    <!-- <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/> -->
 
-    <param name="odom_frame_id"  value="odom"/>
+    <!-- <param name="odom_frame_id"  value="odom"/>
     <param name="base_frame_id"  value="base_scan"/>
     <remap from="scan"           to="scan"/>
     <param name="global_frame_id" value="map"/>
 
-    <!-- Use the single map server -->
-    <remap from="static_map" to="/static_map"/>
+    Use the single map server
+    <remap from="static_map" to="/static_map"/> -->
+
+    <param name="odom_frame_id" value="odom"/>
+    <param name="base_frame_id" type="str" value="base_link" />
+    <param name="global_frame_id" type="str" value="map" />
+
+    <param name="use_map_topic" value="true" />
+    <param name="first_map_only" value="true" />
+    <remap from="scan"           to="scan"/>
     
   </node>
+
+  <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization"/> 
 
   <!-- Move Base
   <include file="$(find robot_navigation)/launch/move_base_namespace.launch">

@@ -1,24 +1,11 @@
 <launch>
 
-  <node pkg="gmapping" type="slam_gmapping" name="gmapping">
-      <param name="base_frame" value="base_link"/>
-      <param name="odom_frame" value="odom" />
-      <param name="delta" value="0.1" />
-  </node>
+  <include file="$(find robot_navigation)/launch/gmapping.launch"/>
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find robot_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find robot_navigation)/params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find robot_navigation)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find robot_navigation)/params/trajectory_planner.yaml" command="load" />
-  </node>
+  <include file="$(find robot_navigation)/launch/move_base_simple.launch"/>
 
-  <arg name="sensor_range" default="12.0"/>
-  <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen" >
-        <param name="frequency" type="double" value="2.0"/>
-        <param name="goal_aliasing" type="double" value="$(arg sensor_range)"/>
-     <rosparam ns="explore_costmap" subst_value="true" file="$(find robot_navigation)/params/exploration.yaml" command="load" />
-  </node>
+  <include file="$(find exploration_server)/launch/exploration.launch">
+    <arg name="sensor_range" value="12)" />
+  </include>
 
 </launch>
