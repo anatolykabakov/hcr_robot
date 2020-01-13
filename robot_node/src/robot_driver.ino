@@ -171,21 +171,7 @@ void CalcEncNav()  {
   wheelRightV = double(wheelRightS/ update_interval); // mетры за сек
   wheelLeftV  = double(wheelLeftS / update_interval);
 
-  // #odometry navigation 
-  // # http://faculty.salina.k-state.edu/tim/robotics_sg/Control/kinematics/unicycle.html
-  double omegaRight = wheelRightV/R; // rad/s
-  double omegaLeft  = wheelLeftV/R;
-
-  omegaLeft *= DirectionR == true ? 1 : -1;
-  omegaRight *= DirectionL == true ? 1 : -1;
-
-  robot.v = (R/2)*(omegaRight + omegaLeft);
-  robot.w = (R/L)*(omegaRight - omegaLeft);
-
-  robot.yaw+=(robot.w * update_interval); // rad
-  robot.yaw = normalize_angle(robot.yaw);
-  robot.x += robot.v*cos(robot.yaw) * update_interval;
-  robot.y += robot.v*sin(robot.yaw) * update_interval;
+  
 
 }
 

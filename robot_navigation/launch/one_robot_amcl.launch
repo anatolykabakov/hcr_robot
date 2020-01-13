@@ -27,7 +27,7 @@
   </include> -->
 
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
-    <!-- <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/> -->
+    <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/>
 
     <!-- <param name="odom_frame_id"  value="odom"/>
     <param name="base_frame_id"  value="base_scan"/>

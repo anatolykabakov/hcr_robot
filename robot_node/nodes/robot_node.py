@@ -17,6 +17,7 @@ from tf.broadcaster import TransformBroadcaster
 import tf
 
 from arduino import protocol
+from robot_kinematic import RobotKinematic
 
 class robot_node:
 
@@ -26,6 +27,10 @@ class robot_node:
 
         arduino_port = rospy.get_param('~arduino_port')
         arduino_rate = rospy.get_param('~arduino_rate', '')
+        wheel_base = rospy.get_param('~wheel_base')
+        wheel_radius = rospy.get_param('~wheel_radius', '')
+
+        self.robot_kinematic = RobotKinematic(wheel_base, wheel_radius)
 
         self.robot = protocol(arduino_port, arduino_rate)
 
@@ -60,27 +65,30 @@ class robot_node:
 
         while not rospy.is_shutdown():
             # get motor velocity values
-            x, y, yaw, v, w = self.robot.getMotors()            
+            vr, vl = self.robot.getMotors()
 
-            orientation_q = tf.transformations.quaternion_from_euler(0.0, 0.0, yaw)
+            self.robot_kinematic.update(vr, vl)            
+
+            orientation_q = tf.transformations.quaternion_from_euler(0.0, 0.0, self.robot_kinematic.yaw)
         
             # prepare odometry
             odom = Odometry()
             odom.header.frame_id = self.frame_id_tf
             odom.child_frame_id = self.child_frame_id_tf
             odom.header.stamp = rospy.Time.now()
-            odom.pose.pose.position.x = x
-            odom.pose.pose.position.y = y
+            odom.pose.pose.position.x = self.robot_kinematic.x
+            odom.pose.pose.position.y = self.robot_kinematic.y
             odom.pose.pose.position.z = 0
             odom.pose.pose.orientation.w = orientation_q[3]
             odom.pose.pose.orientation.x = orientation_q[0]
             odom.pose.pose.orientation.y = orientation_q[1]
             odom.pose.pose.orientation.z = orientation_q[2]
-            odom.twist.twist.linear.x = v
-            odom.twist.twist.angular.z = w
+            odom.twist.twist.linear.x = 0
+            odom.twist.twist.angular.z = 0
 
             # publish everything
-            self.odomBroadcaster.sendTransform( (x, y, 0), 
+            self.odomBroadcaster.sendTransform( (self.robot_kinematic.x, 
+                                                 self.robot_kinematic.y, 0), 
                                                 (orientation_q[0],
                                                  orientation_q[1], 
                                                  orientation_q[2], 
@@ -90,15 +98,16 @@ class robot_node:
                                                  self.frame_id_tf )
             self.odomPub.publish(odom)
 
-            # wait, then do it again
+            self.robot.setMotors(self.cmd_vel[0], self.cmd_vel[1])
             r.sleep()
+            
 
         # shut down
         self.robot.stop()
 
     def cmdVelCb(self,req):
         # send updated movement commands
-        self.robot.setMotors(round(req.linear.x,1), round(req.angular.z,1))
+        self.cmd_vel = [req.linear.x,req.angular.z] 
 
 
 

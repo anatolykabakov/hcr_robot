@@ -13,6 +13,7 @@ class protocol():
     def check_connect(self, connect):
         c = connect.read(1).decode()
         if c != 'c':
+            print('Connect close..')
             self.stop()
 
     def openconnect(self, port, rate):
@@ -43,22 +44,22 @@ class protocol():
 
     def getMotors(self):
         self.connect.write(print_command.encode())
-        data = self.connect.read(30).decode()
-        #print(data) 
+        data = self.connect.read(12).decode()
+        print(data)
+        print(len(data)) 
         self.check_connect(self.connect)
         data = data.split(';')
-        x = float(data[0])
-        y = float(data[1])
-        yaw = float(data[2])
-        v = float(data[3])
-        w = float(data[4])
-        return x, y, yaw, v, w
+        vr = float(data[0])
+        vl = float(data[1])
+
+        return vr, vl
  
     def setMotors(self, v, w):
         self.send(v, w)
+        
 
     def send(self, lvel, avel):
-        ### TODO: round(x, 2) or round(x, 1)
+
         send_data = set_command + str(round(lvel,2)) + ' ' + str(round(avel,2)) + "\n"
         self.connect.write(send_data.encode())
         self.check_connect(self.connect)
