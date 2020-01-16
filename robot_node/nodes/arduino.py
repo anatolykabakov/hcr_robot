@@ -75,6 +75,7 @@ class protocol():
 
     def send(self, lvel, avel):
         send_data = set_command + str(round(lvel,2)) + ' ' + str(round(avel,2)) + "\n"
+
         self.connect.write(send_data.encode())
         self.check_connect(self.connect)
     

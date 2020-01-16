@@ -53,9 +53,7 @@ class robot_node:
             self.frame_id_tf = "odom"
             self.child_frame_id_tf = 'base_link'
 
-    def spin(self):        
-        then = rospy.Time.now()
-        
+    def spin(self):                
         # main loop of driver
         r = rospy.Rate(25)
 
@@ -81,8 +79,7 @@ class robot_node:
             odom.twist.twist.angular.z = w
 
             # publish everything
-            self.odomBroadcaster.sendTransform( (x, 
-                                                 y, 0), 
+            self.odomBroadcaster.sendTransform( (x, y, 0), 
                                                 (orientation_q[0],
                                                  orientation_q[1], 
                                                  orientation_q[2], 
