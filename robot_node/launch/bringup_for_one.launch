@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <launch>
-  <arg name="robot_port" default="/dev/ttyACM0"/>  
+  <arg name="robot_port" default="/dev/ttyACM1"/>  
   <arg name="robot_rate" default="57600"/> 
   <arg name="lidar_port" default="/dev/ttyUSB0"/>
 

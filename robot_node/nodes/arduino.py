@@ -33,7 +33,19 @@ class protocol():
             if connect_flag == 'r':
                 is_connected = True
                 print('Connected!')
+                
         return connect
+
+    def readline(self, connect):
+        line = bytearray()
+        if connect.inWaiting:
+            while True:
+                c = connect.read(1)
+                if "c" in c:
+                    break
+                else:
+                    line+=c
+        return bytes(line)
 
     def arduino_stop(self):
         self.setMotors(0,0)
@@ -42,25 +54,38 @@ class protocol():
     def stop(self):
         self.arduino_stop()
 
-    def getMotors(self):
+    def getOdometry(self):
         self.connect.write(print_command.encode())
-        data = self.connect.read(12).decode()
-        print(data)
-        print(len(data)) 
-        self.check_connect(self.connect)
+        # self.check_connect(self.connect)
+        data = self.readline(self.connect).decode() 
         data = data.split(';')
-        vr = float(data[0])
-        vl = float(data[1])
+        x = float(data[0])
+        y = float(data[1])
+        yaw = float(data[2])
+        v = float(data[3])
+        w = float(data[4])
+        vr = float(data[5])
+        vl = float(data[6])
 
-        return vr, vl
+        return x, y, yaw, v, w, vr, vl
  
     def setMotors(self, v, w):
         self.send(v, w)
         
 
     def send(self, lvel, avel):
-
         send_data = set_command + str(round(lvel,2)) + ' ' + str(round(avel,2)) + "\n"
         self.connect.write(send_data.encode())
         self.check_connect(self.connect)
     
+if __name__ == '__main__':
+    from arduino import protocol
+    connect = protocol('/dev/ttyACM1',57600)
+    
+    x = 0
+    while x < 20:
+        connect.send(0.2, 0.0)
+        odometry = connect.getOdometry()
+        
+        print(odometry)
+    connect.stop()
