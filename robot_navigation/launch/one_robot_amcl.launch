@@ -1,41 +1,22 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- Command Line Arguments -->
-  <arg name="robot_ns" default="robot_1"/>
 
   <!-- Default value for location of map config file -->
   <arg name="map_file" default="$(find robot_navigation)/maps/mymap.yaml"/>
 
   <!-- Map Server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
-
   
-
-
-  <!-- AMCL
-  <include file="$(find robot_node)/launch/bringup_group.launch">
-    <arg name="robot_ns" value="$(arg robot_ns)" />
-    <arg name="robot_port" default="/dev/ttyUSB1"/>  
-    <arg name="robot_rate" default="115200"/> 
+  <!-- Bringup -->
+  <include file="$(find robot_node)/launch/bringup_for_one.launch">
+    <arg name="robot_port" default="/dev/ttyACM0"/>  
+    <arg name="robot_rate" default="57600"/> 
     <arg name="lidar_port" default="/dev/ttyUSB0"/>
-    <arg name="tf_prefix" default="$(arg robot_ns)"/> 
-  </include> -->
-
+  </include>
+  
   <!-- AMCL -->
-  <!-- <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
-    <arg name="robot_ns" value="$(arg robot_ns)" />
-  </include> -->
-
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
     <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/>
-
-    <!-- <param name="odom_frame_id"  value="odom"/>
-    <param name="base_frame_id"  value="base_scan"/>
-    <remap from="scan"           to="scan"/>
-    <param name="global_frame_id" value="map"/>
-
-    Use the single map server
-    <remap from="static_map" to="/static_map"/> -->
 
     <param name="odom_frame_id" value="odom"/>
     <param name="base_frame_id" type="str" value="base_link" />
@@ -49,9 +30,7 @@
 
   <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization"/> 
 
-  <!-- Move Base
-  <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
-    <arg name="robot_ns" value="$(arg robot_ns)" />
-  </include> -->
+  <!-- Move Base -->
+  <include file="$(find robot_navigation)/launch/move_base_simple.launch"/>
 
 </launch>

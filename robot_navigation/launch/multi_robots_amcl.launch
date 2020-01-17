@@ -20,18 +20,18 @@
   </include>
 
   <!-- Move Base -->
-  <!-- <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
+  <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_name_1)" />
-  </include> -->
+  </include>
   
   <!-- AMCL -->
-  <!-- <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
+  <include file="$(find robot_navigation)/launch/amcl_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_name_2)" />
   </include>
    -->
   <!-- Move Base -->
-  <!-- <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
+  <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
     <arg name="robot_ns" value="$(arg robot_name_2)" />
-  </include> -->
+  </include>
 
 </launch>

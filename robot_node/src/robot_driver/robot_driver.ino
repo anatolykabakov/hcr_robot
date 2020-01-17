@@ -2,15 +2,15 @@
 #include <string.h>
 
 // -------------------------------------------------------------------------
-
+//
 // variables for black robot
 double R = 0.0682; // meters radius
 double L = 0.29;  // meters wheel dist  
 double maxSpeed = 0.5; // максимальная линейная скорость при скважности 100%, в м/с
 
 //arduino pins 
-const byte encoderRpinA = 2;                              //A pin -> the interrupt pin (2)
-const byte encoderLpinA = 3;                              //A pin -> the interrupt pin (3)
+const byte encoderRpinA = 3;                              //A pin -> the interrupt pin (2)
+const byte encoderLpinA = 2;                              //A pin -> the interrupt pin (3)
 
 const int MotorRpwm = 5; // 
 const int MotorLpwm = 6;
@@ -21,32 +21,30 @@ const int MotorRdir = 4;
 int resolution_encoders = 1435; //
 
 //PID variables
-double Kp = 0.8;
+double Kp = 1.5;
 double Ki = 10;
 
 // -------------------------------------------------------------------------
 // variables for HCR
-
-// double R = 0.0682; // meters radius
-// double L = 0.275;  // meters wheel dist  
-// int resolution_encoders = 1435; // 
-// double maxSpeed = 0.94; // максимальная линейная скорость при скважности 100%, в м/с
-
-// const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
-// const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
-// const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
-// const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
-
-// const int MotorRdir = 52;    //Right motor Direction Control pin
-// const int MotorLdir = 53;    //Left motor Direction Control pin
-// const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
-// const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
-
-// int resolution_encoders = 663; // 
-
-// //PID variables
-// double Kp = 0.4;
-// double Ki = 10;
+//double R = 0.0682; // meters radius
+//double L = 0.275;  // meters wheel dist  
+//int resolution_encoders = 663; // 
+//double maxSpeed = 0.94; // максимальная линейная скорость при скважности 100%, в м/с
+//
+//const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
+//const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
+//const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
+//const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
+//
+//const int MotorRdir = 52;    //Right motor Direction Control pin
+//const int MotorLdir = 53;    //Left motor Direction Control pin
+//const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
+//const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
+//
+//
+//// //PID variables
+//double Kp = 0.4;
+//double Ki = 10;
 
 // -------------------------------------------------------------------------
 
@@ -67,8 +65,8 @@ double wheelLeftV = 0;
 double linear_velocity = 0;
 double angular_velocity = 0;
 
-double integral_prior_right = 0;
-double integral_prior_left = 0;
+double integral_right = 0;
+double integral_left = 0;
 
 bool DirectionR = true;
 bool DirectionL = true;
@@ -85,11 +83,11 @@ Pose robot;
 
 void setup()
 {
-  Serial.begin(115200);//Initialize the Serial port
+  Serial.begin(57600);//Initialize the Serial port
   pinMode(MotorRdir, OUTPUT);
   pinMode(MotorLdir, OUTPUT);
   EncoderInit();
-
+  
 }
 
 void loop()
@@ -104,11 +102,9 @@ void loop()
   double speed_pid_right = PI_Controller_Right(SetSpeedR, wheelRightV);
   // --------------- Подача уставок на двигатели  --------------------
   move(speed_pid_left, speed_pid_right);
-  //move(SetSpeedL, SetSpeedR);
+//  move(SetSpeedL, SetSpeedR);
   
-  delay(arduino_delay);  
-  
-  
+  delay(arduino_delay); 
 } 
 
 void move(double set_speed_left, double set_speed_right)
@@ -124,6 +120,8 @@ void move(double set_speed_left, double set_speed_right)
   if (pwm_right < 20) pwm_right = 0;
   if (pwm_left >= 255) pwm_left = 255;
   if (pwm_right > 255) pwm_right = 255;
+
+  //Serial.print (set_speed_left);Serial.print (" "); Serial.print (pwm_right);Serial.println ("");
   
   //Serial.print(pwm_right);Serial.print(" ");Serial.print(pwm_left);Serial.println();
   if (DirectionR){digitalWrite(MotorRdir,LOW); analogWrite(MotorRpwm, pwm_right);}
@@ -133,29 +131,29 @@ void move(double set_speed_left, double set_speed_right)
   else{digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
   
   // FOR HCR
-  // if (DirectionR){digitalWrite(MotorRdir,LOW); analogWrite(MotorRpwm, pwm_right);}
-  // else{digitalWrite(MotorRdir,HIGH); analogWrite(MotorRpwm, pwm_right);}
-  
-  // if (DirectionL){digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
-  // else{digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
+//  if (DirectionR){digitalWrite(MotorRdir,LOW); analogWrite(MotorRpwm, pwm_right);}
+//  else{digitalWrite(MotorRdir,HIGH); analogWrite(MotorRpwm, pwm_right);}
+//  
+//  if (DirectionL){digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
+//  else{digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
 
 }
 
 void EncoderInit()
-
 {
   pinMode(encoderRpinA,INPUT); 
   pinMode(encoderLpinA,INPUT);
 
-  attachInterrupt(digitalPinToInterrupt(encoderRpinA), WheelPulseL, RISING ); // вызов процедуры по прерыванию. Параметры: номер прерывания (не ножки), имя процедуры, состояние сигнала
-  attachInterrupt(digitalPinToInterrupt(encoderLpinA), WheelPulseR, RISING );  // ЗАМЕНА, была ссылка на DecodeSpeedL
+  attachInterrupt(digitalPinToInterrupt(encoderRpinA), WheelPulseR, RISING ); 
+  attachInterrupt(digitalPinToInterrupt(encoderLpinA), WheelPulseL, RISING );  
 }
 
 void WheelPulseR(){   // Счетчик спиц правого колеса 
   wheelImpR ++;
 }
+
 void WheelPulseL(){   // Счетчик спиц левого колеса 
-  wheelImpL ++;
+  wheelImpL ++; 
 }
 
 void CalcEncNav()  {
@@ -171,7 +169,21 @@ void CalcEncNav()  {
   wheelRightV = double(wheelRightS/ update_interval); // mетры за сек
   wheelLeftV  = double(wheelLeftS / update_interval);
 
-  
+  // #odometry navigation 
+  // # http://faculty.salina.k-state.edu/tim/robotics_sg/Control/kinematics/unicycle.html
+  double omegaRight = wheelRightV/R; // rad/s
+  double omegaLeft  = wheelLeftV/R;
+
+  omegaLeft *= DirectionL == true ? 1 : -1;
+  omegaRight *= DirectionR == true ? 1 : -1;
+
+  robot.v = (R/2)*(omegaRight + omegaLeft);
+  robot.w = (R/L)*(omegaRight - omegaLeft);
+
+  robot.yaw+=(robot.w * update_interval); // rad
+  robot.yaw = normalize_angle(robot.yaw);
+  robot.x += robot.v*cos(robot.yaw) * update_interval;
+  robot.y += robot.v*sin(robot.yaw) * update_interval;
 
 }
 
@@ -200,13 +212,17 @@ double PI_Controller_Left(double set_speed, double current_speed)
   
   double errorL = set_speed -  current_speed;
 
-  double integral_left = integral_prior_left + (errorL*update_interval);
+  integral_left = integral_left + (errorL*update_interval);
   
   double speed_pid_left = Kp*errorL + Ki*integral_left;
-  
-  integral_prior_left = integral_left;
-  
-  return speed_pid_left;
+
+  if (speed_pid_left>0){
+    return speed_pid_left;
+  }
+  else{
+    return 0;
+  }
+    
 
 }
 
@@ -215,13 +231,16 @@ double PI_Controller_Right(double set_speed, double current_speed)
   //http://robotsforroboticists.com/pid-control/
   double errorR = set_speed -  current_speed;
 
-  double integral_right = integral_prior_right + (errorR*update_interval);
+  integral_right = integral_right + (errorR*update_interval);
   
   double speed_pid_right = Kp*errorR + Ki*integral_right;
   
-  integral_prior_right = integral_right;
-
-  return speed_pid_right;
+  if (speed_pid_right>0){
+    return speed_pid_right;
+  }
+  else{
+    return 0;
+  }
   
 }
 
@@ -248,9 +267,9 @@ void get_messages_from_Serial()
 
         case 'v'://если v, то считываем уставку по скорости
         {
-					char buffer[10];
+          char buffer[10];
           String line = Serial.readStringUntil('\n');// считываем скорости для левого и правого колеса [40 50]
-          line.toCharArray(buffer,10);//переводим в char
+          line.toCharArray(buffer,11);//переводим в char
           double vLinear = atof(strtok(buffer," "));//разделяем на скорости левого и правого колеса
           double vAngular = atof(strtok(NULL,  " "));
           // v=ωR. 
@@ -268,26 +287,26 @@ void get_messages_from_Serial()
         }
         case 'd'://если d, то печатаем текущие значения
         {          
-          if(robot.x > 0){Serial.print ("+");Serial.print (robot.x); Serial.print (";");}
-          else {Serial.print ("-");Serial.print (robot.x); Serial.print (";");}
+          if(robot.x >= 0){Serial.print ("+");Serial.print (abs(robot.x)); Serial.print (";");}
+          else {Serial.print ("-");Serial.print (abs(robot.x)); Serial.print (";");}
           
-          if(robot.y > 0){Serial.print ("+");Serial.print (robot.y); Serial.print (";");}
-          else {Serial.print ("-");Serial.print (robot.y); Serial.print (";");}
+          if(robot.y >= 0){Serial.print ("+");Serial.print (abs(robot.y)); Serial.print (";");}
+          else {Serial.print ("-");Serial.print (abs(robot.y)); Serial.print (";");}
           
-          if(robot.yaw > 0){Serial.print ("+");Serial.print (robot.yaw); Serial.print (";");}
-          else {Serial.print ("-");Serial.print (robot.yaw); Serial.print (";");}
+          if(robot.yaw >= 0){Serial.print ("+");Serial.print (abs(robot.yaw)); Serial.print (";");}
+          else {Serial.print ("-");Serial.print (abs(robot.yaw)); Serial.print (";");}
 
-          if(robot.v > 0){Serial.print ("+");Serial.print (robot.v); Serial.print (";");}
-          else {Serial.print ("-");Serial.print (robot.v); Serial.print (";");}
+          if(robot.v >= 0){Serial.print ("+");Serial.print (abs(robot.v)); Serial.print (";");}
+          else {Serial.print ("-");Serial.print (abs(robot.v)); Serial.print (";");}
 
-          if(robot.w > 0){Serial.print ("+");Serial.print (robot.w); Serial.print (";");}
-          else {Serial.print ("-");Serial.print (robot.w); Serial.print (";");}
+          if(robot.w >= 0){Serial.print ("+");Serial.print (abs(robot.w)); Serial.print (";");}
+          else {Serial.print ("-");Serial.print (abs(robot.w)); Serial.print (";");}
 
-          // if(DirectionR == false){Serial.print ("-");Serial.print (wheelRightV); Serial.print (";");}
-          // else {Serial.print ("+");Serial.print (wheelRightV); Serial.print (";");}
+          if(DirectionR == false){Serial.print ("-");Serial.print (abs(wheelRightV)); Serial.print (";");}
+          else {Serial.print ("+");Serial.print (abs(wheelRightV)); Serial.print (";");}
 
-          // if(DirectionL == false){Serial.print ("-");Serial.print (wheelLeftV); Serial.print (";");}
-          // else {Serial.print ("+");Serial.print (wheelLeftV); Serial.print (";");}
+          if(DirectionL == false){Serial.print ("-");Serial.print (abs(wheelLeftV)); Serial.print (";");}
+          else {Serial.print ("+");Serial.print (abs(wheelLeftV)); Serial.print (";");}
           
           break;
         }

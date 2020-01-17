@@ -17,7 +17,6 @@ from tf.broadcaster import TransformBroadcaster
 import tf
 
 from arduino import protocol
-from robot_kinematic import RobotKinematic
 
 class robot_node:
 
@@ -63,7 +62,6 @@ class robot_node:
 
             orientation_q = tf.transformations.quaternion_from_euler(0.0, 0.0, yaw)
         
-            # prepare odometry
             odom = Odometry()
             odom.header.frame_id = self.frame_id_tf
             odom.child_frame_id = self.child_frame_id_tf
@@ -77,18 +75,18 @@ class robot_node:
             odom.pose.pose.orientation.z = orientation_q[2]
             odom.twist.twist.linear.x = v
             odom.twist.twist.angular.z = w
-
-            # publish everything
-            self.odomBroadcaster.sendTransform( (x, y, 0), 
-                                                (orientation_q[0],
-                                                 orientation_q[1], 
-                                                 orientation_q[2], 
-                                                 orientation_q[3]),
-                                                 rospy.Time.now(), 
-                                                 self.child_frame_id_tf, 
-                                                 self.frame_id_tf )
+            
+            # publish odom
             self.odomPub.publish(odom)
 
+            # publish tf
+            self.odomBroadcaster.sendTransform((x, y, 0), 
+                                                orientation_q,
+                                                rospy.Time.now(), 
+                                                self.child_frame_id_tf, 
+                                                self.frame_id_tf )
+            
+            # send goal velocity 
             self.robot.setMotors(self.cmd_vel[0], self.cmd_vel[1])
             r.sleep()
             
@@ -99,9 +97,6 @@ class robot_node:
     def cmdVelCb(self,req):
         # send updated movement commands
         self.cmd_vel = [req.linear.x,req.angular.z] 
-
-
-
 
 if __name__ == "__main__":    
     robot = robot_node()

@@ -1,26 +1,24 @@
 <?xml version="1.0"?>
 <launch>
 
-  <!-- Bringup two turtlebot3s - laptop/remotepc portion -->
-
   <!-- Command Line Arguments -->
   <arg name="robot_ns" default="robot_1"/>
 
   <group ns="$(arg robot_ns)">
+
+    <!-- AMCL -->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
       <rosparam file="$(find robot_navigation)/params/amcl_params.yaml" command="load"/>
 
-      <param name="odom_frame_id"  value="$(arg robot_ns)/odom"/>
-      <param name="base_frame_id"  value="$(arg robot_ns)/base_scan"/>
-      <remap from="scan"           to="/$(arg robot_ns)/scan"/>
-      <param name="global_frame_id" value="map"/>
+      <param name="odom_frame_id" value="$(arg robot_ns)/odom"/>
+      <param name="base_frame_id" type="str" value="$(arg robot_ns)/base_link" />
+      <param name="global_frame_id" type="str" value="map" />
 
-      <!-- Use the single map server -->
-      <remap from="static_map" to="/static_map"/>
+      <param name="use_map_topic" value="true" />
+      <param name="first_map_only" value="true" />
+      <remap from="scan"           to="/$(arg robot_ns)/scan"/>
       
     </node>
   </group>
 
-
-  
 </launch>

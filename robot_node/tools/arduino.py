@@ -56,6 +56,7 @@ class protocol():
 
     def getOdometry(self):
         self.connect.write(print_command.encode())
+        # self.check_connect(self.connect)
         data = self.readline(self.connect).decode() 
         data = data.split(';')
         x = float(data[0])

@@ -1,4 +1,11 @@
 <launch>
+  <!-- Bringup -->
+  <include file="$(find robot_node)/launch/bringup_for_one.launch">
+    <arg name="robot_port" default="/dev/ttyACM0"/>  
+    <arg name="robot_rate" default="57600"/> 
+    <arg name="lidar_port" default="/dev/ttyUSB0"/>
+  </include>
+  
   <include file="$(find robot_navigation)/launch/gmapping.launch"/>
 
   <include file="$(find robot_navigation)/launch/move_base_simple.launch"/>
