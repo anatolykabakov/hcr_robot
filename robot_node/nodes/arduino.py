@@ -70,11 +70,19 @@ class protocol():
  
     def setMotors(self, v, w):
         self.send(v, w)
-        
 
     def send(self, lvel, avel):
-        send_data = set_command + str(round(lvel,2)) + ' ' + str(round(avel,2)) + "\n"
-
+        lvel_sign = ''
+        avel_sign = ''
+        if (lvel >=0):
+            lvel_sign = '+'
+        else:
+            lvel_sign = '-'
+        if (avel >=0):
+            avel_sign = '+'
+        else:
+            avel_sign = '-'
+        send_data = set_command + lvel_sign + str(round(abs(lvel),2)) + ' ' + avel_sign + str(round(abs(avel),2)) + "\n"
         self.connect.write(send_data.encode())
         self.check_connect(self.connect)
     

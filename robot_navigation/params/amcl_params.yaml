@@ -12,7 +12,7 @@ update_min_a: -1
 
 # laser_max_range: -1
 # laser_min_range: -1
-# laser_max_beams: 180
+laser_max_beams: 180
 
 odom_model_type: "diff"
 # odom_alpha1: 0.1

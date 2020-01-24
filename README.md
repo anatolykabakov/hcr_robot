@@ -15,15 +15,15 @@ You can check this out into your catin workspace as follows:
 
 In robot
 
-roslaunch robot_node bringup_group.launch robot_ns:=robot_0 robot_port:=/dev/ttyUSB1 lidar_port:=/dev/ttyUSB0
+    roslaunch robot_node bringup_group.launch robot_ns:=robot_0 robot_port:=/dev/ttyUSB1 lidar_port:=/dev/ttyUSB0
 
 or
 
-roslaunch robot_node bringup.launch robot_ns:=robot_1 robot_port:=/dev/ttyACM0 lidar_port:=/dev/ttyUSB0
+    roslaunch robot_node bringup.launch robot_ns:=robot_1 robot_port:=/dev/ttyACM0 lidar_port:=/dev/ttyUSB0
 
 for teleop:
 
-rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/robot_0/cmd_vel
+    rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/robot_0/cmd_vel
 
 
 ## TODO list

@@ -6,6 +6,7 @@
 // variables for black robot
 double R = 0.0682; // meters radius
 double L = 0.29;  // meters wheel dist  
+
 double maxSpeed = 0.5; // максимальная линейная скорость при скважности 100%, в м/с
 
 //arduino pins 
@@ -22,29 +23,31 @@ int resolution_encoders = 1435; //
 
 //PID variables
 double Kp = 1.5;
-double Ki = 10;
+double Ki = 5;
 
 // -------------------------------------------------------------------------
-// variables for HCR
-//double R = 0.0682; // meters radius
-//double L = 0.275;  // meters wheel dist  
-//int resolution_encoders = 663; // 
-//double maxSpeed = 0.94; // максимальная линейная скорость при скважности 100%, в м/с
-//
-//const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
-//const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
-//const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
-//const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
-//
-//const int MotorRdir = 52;    //Right motor Direction Control pin
-//const int MotorLdir = 53;    //Left motor Direction Control pin
-//const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
-//const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
-//
-//
-//// //PID variables
-//double Kp = 0.4;
-//double Ki = 10;
+/// variables for HCR
+// double R = 0.0682; // meters radius
+// double L = 0.275;  // meters wheel dist 
+ 
+// int resolution_encoders = 663; // 
+
+// double maxSpeed = 0.94; // максимальная линейная скорость при скважности 100%, в м/с
+
+// const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
+// const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
+// const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
+// const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
+
+// const int MotorRdir = 52;    //Right motor Direction Control pin
+// const int MotorLdir = 53;    //Left motor Direction Control pin
+// const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
+// const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
+
+
+// // //PID variables
+// double Kp = 0.4;
+// double Ki = 10;
 
 // -------------------------------------------------------------------------
 
@@ -102,7 +105,7 @@ void loop()
   double speed_pid_right = PI_Controller_Right(SetSpeedR, wheelRightV);
   // --------------- Подача уставок на двигатели  --------------------
   move(speed_pid_left, speed_pid_right);
-//  move(SetSpeedL, SetSpeedR);
+//  move(/SetSpeedL, SetSpeedR);
   
   delay(arduino_delay); 
 } 
@@ -121,19 +124,16 @@ void move(double set_speed_left, double set_speed_right)
   if (pwm_left >= 255) pwm_left = 255;
   if (pwm_right > 255) pwm_right = 255;
 
-  //Serial.print (set_speed_left);Serial.print (" "); Serial.print (pwm_right);Serial.println ("");
-  
-  //Serial.print(pwm_right);Serial.print(" ");Serial.print(pwm_left);Serial.println();
   if (DirectionR){digitalWrite(MotorRdir,LOW); analogWrite(MotorRpwm, pwm_right);}
   else{digitalWrite(MotorRdir,HIGH); analogWrite(MotorRpwm, pwm_right);}
   
+
+  // FOR black robot
   if (DirectionL){digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
   else{digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
   
   // FOR HCR
-//  if (DirectionR){digitalWrite(MotorRdir,LOW); analogWrite(MotorRpwm, pwm_right);}
-//  else{digitalWrite(MotorRdir,HIGH); analogWrite(MotorRpwm, pwm_right);}
-//  
+
 //  if (DirectionL){digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
 //  else{digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
 
@@ -216,14 +216,8 @@ double PI_Controller_Left(double set_speed, double current_speed)
   
   double speed_pid_left = Kp*errorL + Ki*integral_left;
 
-  if (speed_pid_left>0){
-    return speed_pid_left;
-  }
-  else{
-    return 0;
-  }
+  return speed_pid_left;
     
-
 }
 
 double PI_Controller_Right(double set_speed, double current_speed)
@@ -235,12 +229,7 @@ double PI_Controller_Right(double set_speed, double current_speed)
   
   double speed_pid_right = Kp*errorR + Ki*integral_right;
   
-  if (speed_pid_right>0){
-    return speed_pid_right;
-  }
-  else{
-    return 0;
-  }
+  return speed_pid_right;
   
 }
 
@@ -267,9 +256,9 @@ void get_messages_from_Serial()
 
         case 'v'://если v, то считываем уставку по скорости
         {
-          char buffer[10];
+          char buffer[12];
           String line = Serial.readStringUntil('\n');// считываем скорости для левого и правого колеса [40 50]
-          line.toCharArray(buffer,11);//переводим в char
+          line.toCharArray(buffer,12);//переводим в char
           double vLinear = atof(strtok(buffer," "));//разделяем на скорости левого и правого колеса
           double vAngular = atof(strtok(NULL,  " "));
           // v=ωR. 

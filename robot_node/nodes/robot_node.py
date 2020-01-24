@@ -26,14 +26,13 @@ class robot_node:
 
         arduino_port = rospy.get_param('~arduino_port')
         arduino_rate = rospy.get_param('~arduino_rate', '')
-
-        self.robot = protocol(arduino_port, arduino_rate)
-
         tf_prefix = rospy.get_param('~tf_prefix')
 
         rospy.loginfo("Arduino Using port: %s"%(arduino_port))
         rospy.loginfo("Arduino Using rate: %s"%(arduino_rate))
         rospy.loginfo("tf_prefix: %s"%(tf_prefix))
+
+        self.robot = protocol(arduino_port, arduino_rate)
 
         rospy.Subscriber("cmd_vel", Twist, self.cmdVelCb)
         
@@ -46,10 +45,10 @@ class robot_node:
         self.child_frame_id_tf = ""
 
         if tf_prefix != "":
-            self.frame_id_tf = tf_prefix + "/" + "odom"
+            self.frame_id_tf = tf_prefix + "/" + 'odom'
             self.child_frame_id_tf = tf_prefix + "/" +'base_link'
         else:
-            self.frame_id_tf = "odom"
+            self.frame_id_tf = 'odom'
             self.child_frame_id_tf = 'base_link'
 
     def spin(self):                
@@ -84,7 +83,7 @@ class robot_node:
                                                 orientation_q,
                                                 rospy.Time.now(), 
                                                 self.child_frame_id_tf, 
-                                                self.frame_id_tf )
+                                                self.frame_id_tf)
             
             # send goal velocity 
             self.robot.setMotors(self.cmd_vel[0], self.cmd_vel[1])

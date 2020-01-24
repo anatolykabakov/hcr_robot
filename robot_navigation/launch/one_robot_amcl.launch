@@ -2,7 +2,7 @@
 <launch>
 
   <!-- Default value for location of map config file -->
-  <arg name="map_file" default="$(find robot_navigation)/maps/mymap.yaml"/>
+  <arg name="map_file" default="$(find robot_navigation)/maps/lab3.yaml"/>
 
   <!-- Map Server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
