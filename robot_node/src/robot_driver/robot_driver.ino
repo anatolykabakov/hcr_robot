@@ -127,7 +127,6 @@ void move(double set_speed_left, double set_speed_right)
   if (DirectionR){digitalWrite(MotorRdir,LOW); analogWrite(MotorRpwm, pwm_right);}
   else{digitalWrite(MotorRdir,HIGH); analogWrite(MotorRpwm, pwm_right);}
   
-
   // FOR black robot
   if (DirectionL){digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
   else{digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
