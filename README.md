@@ -17,16 +17,12 @@ In robot
 
     roslaunch robot_node bringup_group.launch robot_ns:=robot_0 robot_port:=/dev/ttyUSB1 lidar_port:=/dev/ttyUSB0
 
-or
-
-    roslaunch robot_node bringup.launch robot_ns:=robot_1 robot_port:=/dev/ttyACM0 lidar_port:=/dev/ttyUSB0
-
 for teleop:
 
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/robot_0/cmd_vel
 
 
-## TODO list
+<!-- ## TODO list -->
 
 <!-- 1. Loading map in robot
 1.1 Loading map using map_server
@@ -46,10 +42,10 @@ for teleop:
 5. Debugging arduino driver for odometry -->
 
 
-Чек-лист
+<!-- Чек-лист
 1. Настройки сети
 2. Точная одометрия робота
 3. Точная локализация робота
 4. Точное движение в точку 
-5. Точное движение в точки для двух роботов.
+5. Точное движение в точки для двух роботов. -->
 
