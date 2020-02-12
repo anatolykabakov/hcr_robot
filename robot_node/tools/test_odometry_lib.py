@@ -79,6 +79,9 @@ class TestOdometry(object):
         log = {'time':[], 'vr':[], 'vl':[]}
         prev_time = time.time()
         full_time = 0
+        log['time'].append(full_time)
+        log['vr'].append(0)
+        log['vl'].append(0)
         self.robot.setMotors(set_linear, set_angular)
         while full_time <= full_time_test:
             

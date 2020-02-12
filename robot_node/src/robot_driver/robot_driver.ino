@@ -4,53 +4,53 @@
 // -------------------------------------------------------------------------
 //
 // variables for black robot
-// double R = 0.0682; // meters radius
-// double L = 0.29;  // meters wheel dist  
+double R = 0.0682; // meters radius
+double L = 0.29;  // meters wheel dist  
 
-// double maxSpeed = 0.5; // максимальная линейная скорость при скважности 100%, в м/с
+double maxSpeed = 0.47; // максимальная линейная скорость при скважности 100%, в м/с
 
-// //arduino pins 
-// const byte encoderRpinA = 3;                              //A pin -> the interrupt pin (2)
-// const byte encoderLpinA = 2;                              //A pin -> the interrupt pin (3)
+//arduino pins 
+const byte encoderRpinA = 3;                              //A pin -> the interrupt pin (2)
+const byte encoderLpinA = 2;                              //A pin -> the interrupt pin (3)
 
-// const int MotorRpwm = 5; // 
-// const int MotorLpwm = 6;
-// const int MotorLdir = 7;
-// const int MotorRdir = 4;
+const int MotorRpwm = 5; // 
+const int MotorLpwm = 6;
+const int MotorLdir = 7;
+const int MotorRdir = 4;
 
-// //Resolution encoders 
-// int resolution_encoders = 1435; //
+//Resolution encoders 
+int resolution_encoders = 1435; //
 
-// //PID variables
-// double Kp = 1.5;
-// double Ki = 5;
+//PID variables
+double Kp = 1.6;
+double Ki = 11.6;
 
 // -------------------------------------------------------------------------
 /// variables for HCR
-double R = 0.0682; // meters radius
-double L = 0.275;  // meters wheel dist 
+// double R = 0.0682; // meters radius
+// double L = 0.275;  // meters wheel dist 
  
-int resolution_encoders = 663; // 
+// int resolution_encoders = 663; // 
 
-double maxSpeed = 0.7; // максимальная линейная скорость при скважности 100%, в м/с
+// double maxSpeed = 0.7; // максимальная линейная скорость при скважности 100%, в м/с
 
-const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
-const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
-const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
-const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
+// const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
+// const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
+// const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
+// const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
 
-const int MotorRdir = 52;    //Right motor Direction Control pin
-const int MotorLdir = 53;    //Left motor Direction Control pin
-const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
-const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
+// const int MotorRdir = 52;    //Right motor Direction Control pin
+// const int MotorLdir = 53;    //Left motor Direction Control pin
+// const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
+// const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
 
 
-// //PID variables
-// double Kp = 0.4;
-// double Ki = 10;
+// // //PID variables
+// // double Kp = 0.4;
+// // double Ki = 10;
 
-double Kp = 0.83;
-double Ki = 16.0;
+// double Kp = 0.83;
+// double Ki = 16.0;
 
 // -------------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ void loop()
   double speed_pid_right = PI_Controller_Right(SetSpeedR, wheelRightV);
   // --------------- Подача уставок на двигатели  --------------------
   move(speed_pid_left, speed_pid_right);
-  //move(SetSpeedL, SetSpeedR);
+//  move(Set/SpeedL, SetSpeedR);
   
   delay(arduino_delay); 
 } 
@@ -132,13 +132,13 @@ void move(double set_speed_left, double set_speed_right)
   else{digitalWrite(MotorRdir,HIGH); analogWrite(MotorRpwm, pwm_right);}
   
   // FOR black robot
-  // if (DirectionL){digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
-  // else{digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
+  if (DirectionL){digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
+  else{digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
   
   // FOR HCR
 
-  if (DirectionL){digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
-  else{digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
+//  if (DirectionL){digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
+//  else{digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
 
 }
 
