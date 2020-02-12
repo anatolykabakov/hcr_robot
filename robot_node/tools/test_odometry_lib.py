@@ -17,9 +17,6 @@ class Controller(object):
 
     def position_controller(self, x, y, theta):
 
-        # delta_time = time.time() - self.prev_time
-        # self.prev_time = time.time()
-
         x_diff = self.x_goal - x
         y_diff = self.y_goal - y
         delta_l = math.sqrt(x_diff**2 + y_diff**2)
@@ -27,7 +24,7 @@ class Controller(object):
         e_rho = delta_l*math.cos(e_alpha)
         self.pos_error = delta_l
 
-        w = e_alpha#/delta_time
+        w = e_alpha
         v = e_rho
 
         if v > self.max_linear_speed:
