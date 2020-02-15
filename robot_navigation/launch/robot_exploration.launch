@@ -1,11 +1,7 @@
 <launch>
 
-  <include file="$(find robot_navigation)/launch/gmapping.launch"/>
+  <include file="$(find robot_navigation)/launch/one_robot_gmapping.launch"/>
 
-  <include file="$(find robot_navigation)/launch/move_base_simple.launch"/>
-
-  <include file="$(find exploration_server)/launch/exploration.launch">
-    <arg name="sensor_range" value="12" />
-  </include>
+  <include file="$(find m-explore)/launch/explore.launch"/>
 
 </launch>

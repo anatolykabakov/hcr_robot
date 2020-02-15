@@ -16,5 +16,4 @@
 
   <include file="$(find robot_navigation)/launch/move_base_simple.launch"/>
 
-  <include file="$(find m-explore)/launch/explore.launch"/>
 </launch>
