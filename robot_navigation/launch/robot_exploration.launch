@@ -2,6 +2,6 @@
 
   <include file="$(find robot_navigation)/launch/one_robot_gmapping.launch"/>
 
-  <include file="$(find m-explore)/launch/explore.launch"/>
+  <include file="$(find explore_lite)/launch/explore.launch"/>
 
 </launch>
