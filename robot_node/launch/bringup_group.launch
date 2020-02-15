@@ -2,7 +2,7 @@
 <launch>
   <arg name="robot_ns" default="robot_0"/> 
   <arg name="robot_port" default="/dev/ttyUSB1"/>  
-  <arg name="robot_rate" default="115200"/> 
+  <arg name="robot_rate" default="57600"/> 
   <arg name="lidar_port" default="/dev/ttyUSB0"/>
   <arg name="tf_prefix" default="$(arg robot_ns)"/> 
 
