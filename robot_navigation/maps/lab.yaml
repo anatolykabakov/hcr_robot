@@ -1,4 +1,4 @@
-image: /home/anatoly/catkin_ws/src/robot/robot_navigation/maps/lab.pgm
+image: lab.pgm
 resolution: 0.050000
 origin: [-10.000000, -10.000000, 0.000000]
 negate: 0
