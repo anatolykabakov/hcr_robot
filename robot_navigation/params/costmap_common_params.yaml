@@ -1,6 +1,6 @@
 obstacle_range: 6.0
 raytrace_range: 8.5
-footprint: [[0.15, 0.15], [0.15, -0.15], [-0.15, -0.15], [-0.15, 0.15]]
+footprint: [[0.2, 0.2], [0.2, -0.2], [-0.2, -0.2], [-0.2, 0.20]]
 map_topic: /map
 subscribe_to_updates: true
 observation_sources: lidar_source
