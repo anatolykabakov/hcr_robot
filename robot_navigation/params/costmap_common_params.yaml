@@ -3,9 +3,6 @@ raytrace_range: 12.0
 
 footprint: [[0.2, 0.2], [0.2, -0.2], [-0.2, -0.2], [-0.2, 0.20]]
 
-inflation_radius: 0.55
-cost_scaling_factor: 5.0
-
 map_type: costmap
 
 observation_sources: lidar_source
