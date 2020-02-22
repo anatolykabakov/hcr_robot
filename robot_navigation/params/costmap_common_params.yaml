@@ -1,14 +1,14 @@
 obstacle_range: 12.0
 raytrace_range: 12.0
 footprint: [[0.2, 0.2], [0.2, -0.2], [-0.2, -0.2], [-0.2, 0.20]]
+
 inflation_radius: 1.0
 cost_scaling_factor: 3.0
+
 map_type: costmap
-map_topic: /map
-subscribe_to_updates: true
+
 observation_sources: lidar_source
 lidar_source: {sensor_frame: base_scan, data_type: LaserScan, topic: scan, marking: true, clearing: true}
-global_frame: map
-robot_base_frame: base_link
-always_send_full_costmap: true
+
+
 
