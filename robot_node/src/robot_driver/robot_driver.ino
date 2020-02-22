@@ -1,56 +1,62 @@
 #include <math.h>
 #include <string.h>
 
+
 // -------------------------------------------------------------------------
 //
 // variables for black robot
-double R = 0.0682; // meters radius
-double L = 0.29;  // meters wheel dist  
+// double R = 0.0682; // meters radius
+// double L = 0.29;  // meters wheel dist  
 
-double maxSpeed = 0.47; // максимальная линейная скорость при скважности 100%, в м/с
+// double maxSpeed = 0.48; // максимальная линейная скорость при скважности 100%, в м/с
 
-//arduino pins 
-const byte encoderRpinA = 3;                              //A pin -> the interrupt pin (2)
-const byte encoderLpinA = 2;                              //A pin -> the interrupt pin (3)
+// //arduino pins 
+// const byte encoderRpinA = 3;                              //A pin -> the interrupt pin (2)
+// const byte encoderLpinA = 2;                              //A pin -> the interrupt pin (3)
 
-const int MotorRpwm = 5; // 
-const int MotorLpwm = 6;
-const int MotorLdir = 7;
-const int MotorRdir = 4;
+// const int MotorRpwm = 5; // 
+// const int MotorLpwm = 6;
+// const int MotorLdir = 7;
+// const int MotorRdir = 4;
 
-//Resolution encoders 
-int resolution_encoders = 1435; //
+// //Resolution encoders 
+// int resolution_encoders = 1435; //
 
-//PID variables
-double Kp = 1.6;
-double Ki = 11.6;
+// //PID variables
+// double Kp = 1.0;
+// double Ki = 10.0;
 
 // -------------------------------------------------------------------------
 /// variables for HCR
-// double R = 0.0682; // meters radius
-// double L = 0.275;  // meters wheel dist 
+double R = 0.0682; // meters radius
+double L = 0.275;  // meters wheel dist 
  
-// int resolution_encoders = 663; // 
+int resolution_encoders = 663; // 
 
-// double maxSpeed = 0.7; // максимальная линейная скорость при скважности 100%, в м/с
+double maxSpeed = 0.6; // максимальная линейная скорость при скважности 100%, в м/с
 
-// const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
-// const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
-// const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
-// const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
+const byte encoderRpinA = 2;        //A pin -> the interrupt pin (2)
+const byte encoderRpinB = 17;       //B pin -> the digital pin (16)
+const byte encoderLpinA = 3;        //A pin -> the interrupt pin (3)
+const byte encoderLpinB = 16;       //B pin -> the digital pin (17)
 
-// const int MotorRdir = 52;    //Right motor Direction Control pin
-// const int MotorLdir = 53;    //Left motor Direction Control pin
-// const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
-// const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
+const int MotorRdir = 52;    //Right motor Direction Control pin
+const int MotorLdir = 53;    //Left motor Direction Control pin
+const int MotorRpwm = 4;     //Right motor PWM Speed Control pin
+const int MotorLpwm = 5;     //Left motor PWM Speed Control pin
 
 
-// // //PID variables
-// // double Kp = 0.4;
-// // double Ki = 10;
+const byte bump_left_pin = 22;
+const byte bump_center_pin = 23;
+const byte bump_right_pin = 24;
 
-// double Kp = 0.83;
-// double Ki = 16.0;
+
+// //PID variables
+// double Kp = 0.4;
+// double Ki = 10;
+
+double Kp = 1.0;
+double Ki = 10.0;
 
 // -------------------------------------------------------------------------
 
@@ -77,6 +83,8 @@ double integral_left = 0;
 bool DirectionR = true;
 bool DirectionL = true;
 
+bool bump = false;
+
 struct Pose{
   double x = 0; // meters
   double y = 0;
@@ -92,26 +100,46 @@ void setup()
   Serial.begin(57600);//Initialize the Serial port
   pinMode(MotorRdir, OUTPUT);
   pinMode(MotorLdir, OUTPUT);
+
+  pinMode(bump_left_pin, INPUT);
+  pinMode(bump_center_pin, INPUT);
+  pinMode(bump_right_pin, INPUT);
   EncoderInit();
   
 }
 
 void loop()
 {
+  Bump();
   // --------------- Подсчет информации с энкодеров --------------------
   CalcEncNav();
   // --------------- Чтение уставок по линейной и угловой скорости --------------------
   get_messages_from_Serial();
   // --------------- Расчет ПИД  --------------------
-  
-  double speed_pid_left = PI_Controller_Left(SetSpeedL, wheelLeftV);
+  double speed_pid_left  = PI_Controller_Left(SetSpeedL, wheelLeftV);
   double speed_pid_right = PI_Controller_Right(SetSpeedR, wheelRightV);
   // --------------- Подача уставок на двигатели  --------------------
   move(speed_pid_left, speed_pid_right);
-//  move(Set/SpeedL, SetSpeedR);
+  //move(SetSpeedL, SetSpeedR);
   
   delay(arduino_delay); 
 } 
+
+void Bump(){
+  byte bump_left_state   = digitalRead(bump_left_pin);
+  byte bump_center_state = digitalRead(bump_center_pin);
+  byte bump_right_state  = digitalRead(bump_right_pin);
+  if (bump_left_state == LOW || bump_center_state == LOW || bump_right_state == LOW)
+  {
+    SetSpeedL = 0;
+    SetSpeedR = 0;
+    bump = true;
+  }
+  else{
+    bump = false;
+  }
+  
+}
 
 void move(double set_speed_left, double set_speed_right)
 {
@@ -132,13 +160,13 @@ void move(double set_speed_left, double set_speed_right)
   else{digitalWrite(MotorRdir,HIGH); analogWrite(MotorRpwm, pwm_right);}
   
   // FOR black robot
-  if (DirectionL){digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
-  else{digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
+  // if (DirectionL){digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
+  // else{digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
   
   // FOR HCR
 
-//  if (DirectionL){digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
-//  else{digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
+  if (DirectionL){digitalWrite(MotorLdir,LOW); analogWrite(MotorLpwm,pwm_left);}
+  else{digitalWrite(MotorLdir,HIGH); analogWrite(MotorLpwm,pwm_left);}
 
 }
 
@@ -299,6 +327,10 @@ void get_messages_from_Serial()
 
           if(DirectionL == false){Serial.print ("-");Serial.print (abs(wheelLeftV)); Serial.print (";");}
           else {Serial.print ("+");Serial.print (abs(wheelLeftV)); Serial.print (";");}
+
+          if (bump == true){Serial.print("1");Serial.print (";");}
+          else{Serial.print("0");Serial.print (";");}
+          
           
           break;
         }

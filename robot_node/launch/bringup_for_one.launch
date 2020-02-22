@@ -20,6 +20,6 @@
   </node>
     
   <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" 
-    args="0 0 0 3.14 0 0 base_link base_scan 100" />
+    args="0 0 0 3.14 0 0 base_link base_scan 50" />
 
 </launch>

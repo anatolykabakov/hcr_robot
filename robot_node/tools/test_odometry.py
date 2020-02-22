@@ -4,7 +4,7 @@ from test_odometry_lib import Utils, TestOdometry, Controller
 
 
 if __name__ == '__main__':
-    port = '/dev/ttyACM2'
+    port = '/dev/ttyACM0'
     baudrate = 57600
 
     robot = protocol(port, baudrate)
@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     set_linear = 0.3
     set_angular = 0.0
-    full_time_test = 1
+    full_time_test = 2
     log_vel = test_control_level.test_speed(set_linear,
                                             set_angular,
                                             full_time_test)
