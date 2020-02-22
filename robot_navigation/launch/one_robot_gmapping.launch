@@ -40,6 +40,7 @@
 	     value="base_link"/>
     <remap from="cmd_vel" to="/cmd_vel"/>
     <remap from="odom" to="odom"/>
+    <param name="footprint" value="[[0.2, 0.2], [0.2, -0.2], [-0.2, -0.2], [-0.2, 0.20]]"/>
     <param name="DWAPlannerROS/min_vel_x" value="0.0" if="false" />
   </node>
 
