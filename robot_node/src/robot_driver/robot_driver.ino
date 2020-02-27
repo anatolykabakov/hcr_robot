@@ -63,7 +63,7 @@ double Ki = 10.0;
 unsigned long wheelImpR = 0; // число импульсов с энкодера правого колеса 
 unsigned long wheelImpL = 0; // число импульсов с энкодера левого колеса 
 
-const int rate = 20; //hz
+const int rate = 50; //hz
 double update_interval = 1/double(rate); // Sec
 const int arduino_delay= int(update_interval*1000); // mSec
 
@@ -97,7 +97,7 @@ Pose robot;
 
 void setup()
 {
-  Serial.begin(57600);//Initialize the Serial port
+  Serial.begin(115200);//Initialize the Serial port
   pinMode(MotorRdir, OUTPUT);
   pinMode(MotorLdir, OUTPUT);
 
