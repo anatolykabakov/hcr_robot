@@ -55,7 +55,7 @@ class TestOdometry(object):
         w.append(0)
         
         x, y, th = 0,0,0
-        while abs(self.controller.pos_error) > 0.1:
+        while abs(self.controller.pos_error) > 0.02:
             x, y, yaw, v, w, vr, vl = self.robot.getOdometry()
             
             v, w = self.controller.position_controller(x, 
