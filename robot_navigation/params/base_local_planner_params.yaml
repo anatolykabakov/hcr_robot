@@ -13,6 +13,7 @@ TrajectoryPlannerROS:
   xy_goal_tolerance: 0.2
   goal_distance_bias: 0.1
   path_distance_bias: 0.1
+  meter_scoring: true
   dwa: false
 
 
