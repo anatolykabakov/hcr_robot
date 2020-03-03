@@ -2,7 +2,9 @@
 
   <arg name="robot_ns"  default="robot_1"/>  
   
-  <include file="$(find robot_node)/launch/bringup_group.launch"/>
+  <include file="$(find robot_node)/launch/bringup_group.launch">
+    <arg name="robot_ns"  default="$(arg robot_ns)"/>
+  </include>
   
 
   <include file="$(find robot_navigation)/launch/gmapping.launch">
