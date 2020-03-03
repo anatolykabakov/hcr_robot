@@ -5,7 +5,6 @@
   <include file="$(find robot_node)/launch/bringup_group.launch">
     <arg name="robot_ns"  default="$(arg robot_ns)"/>
   </include>
-  
 
   <include file="$(find robot_navigation)/launch/gmapping.launch">
     <arg name="set_base_frame" default="$(arg robot_ns)/base_link"/>
