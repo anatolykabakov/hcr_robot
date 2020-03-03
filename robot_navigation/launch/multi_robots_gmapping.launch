@@ -7,10 +7,7 @@
   </include>
 
   <include file="$(find robot_navigation)/launch/gmapping.launch">
-    <arg name="set_base_frame" default="$(arg robot_ns)/base_link"/>
-    <arg name="set_odom_frame" default="$(arg robot_ns)/odom"/>
-    <arg name="set_map_frame"  default="map"/>
-    <arg name="scan"  default="$(arg robot_ns)/scan"/>
+    <arg name="ns"  default="$(arg robot_ns)"/>
   </include>
 
   <include file="$(find robot_navigation)/launch/move_base_namespace.launch">
