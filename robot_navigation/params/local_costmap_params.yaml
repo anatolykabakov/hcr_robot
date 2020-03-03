@@ -13,6 +13,6 @@ local_costmap:
   height: 3
   resolution: 0.1
   inflation_radius: 0.1
-  cost_scaling_factor: 1.0
+  cost_scaling_factor: 0.2
 
 

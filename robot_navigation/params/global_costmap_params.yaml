@@ -10,4 +10,4 @@ global_costmap:
   resolution: 0.1
 
   inflation_radius: 0.2
-  cost_scaling_factor: 5.0
+  cost_scaling_factor: 1.0
