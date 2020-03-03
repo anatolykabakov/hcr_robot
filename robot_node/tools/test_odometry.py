@@ -24,9 +24,9 @@ if __name__ == '__main__':
 
     ### Test speed
 
-    set_linear = 0.45
-    set_angular = 0.7
-    full_time_test = 30
+    set_linear = 0.2
+    set_angular = 0.0
+    full_time_test = 3
     log_vel = test_control_level.test_speed(set_linear,
                                             set_angular,
                                             full_time_test)
