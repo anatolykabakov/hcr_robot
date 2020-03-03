@@ -6,7 +6,7 @@
     <arg name="robot_ns"  default="$(arg robot_ns)"/>
   </include>
 
-  <include file="$(find robot_navigation)/launch/gmapping.launch">
+  <include file="$(find robot_navigation)/launch/gmapping_namespace.launch">
     <arg name="ns"  default="$(arg robot_ns)"/>
   </include>
 
