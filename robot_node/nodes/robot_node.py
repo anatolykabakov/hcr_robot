@@ -53,7 +53,7 @@ class robot_node:
 
     def spin(self):                
         # main loop of driver
-        r = rospy.Rate(100)
+        r = rospy.Rate(30)
 
         while not rospy.is_shutdown():
             # get motor velocity values
