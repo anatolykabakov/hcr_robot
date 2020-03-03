@@ -23,8 +23,8 @@ const int MotorRdir = 4;
 int resolution_encoders = 1435; //
 
 // //PID variables
-double Kp = 1.0;
-double Ki = 10.0;
+double Kp = 0.4;
+double Ki = 2.0;
 
 // -------------------------------------------------------------------------
 /// variables for HCR
