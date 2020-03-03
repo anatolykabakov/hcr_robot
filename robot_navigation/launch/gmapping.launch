@@ -13,10 +13,6 @@
     <param name="base_frame" value="$(arg set_base_frame)"/>
     <param name="odom_frame" value="$(arg set_odom_frame)"/>
     <param name="map_frame"  value="$(arg set_map_frame)"/>
-    <param name="delta" value="0.1"/>
-
-    <param name="particles" value="500"/>
-
     <remap from="scan" to="$(arg scan)" />
   </node>
 </launch>
