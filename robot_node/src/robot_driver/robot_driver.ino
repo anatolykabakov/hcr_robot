@@ -6,7 +6,7 @@
 //
 // variables for black robot
 double R = 0.0682; // meters radius
-double L = 0.29;  // meters wheel dist  
+double L = 0.275;  // meters wheel dist  
 
 double maxSpeed = 0.48; // максимальная линейная скорость при скважности 100%, в м/с
 
