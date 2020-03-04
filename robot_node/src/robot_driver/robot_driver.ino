@@ -23,8 +23,8 @@ const int MotorRdir = 4;
 int resolution_encoders = 1435; //
 
 // //PID variables
-double Kp = 0.4;
-double Ki = 2.0;
+double Kp = 1.0;
+double Ki = 10.0;
 
 // -------------------------------------------------------------------------
 /// variables for HCR
@@ -63,7 +63,7 @@ double Ki = 2.0;
 unsigned long wheelImpR = 0; // число импульсов с энкодера правого колеса 
 unsigned long wheelImpL = 0; // число импульсов с энкодера левого колеса 
 
-const int rate = 50; //hz
+const int rate = 30; //hz
 double update_interval = 1/double(rate); // Sec
 const int arduino_delay= int(update_interval*1000); // mSec
 
